@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CaddyAI - The Autonomous Golf Trip Orchestrator</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Merriweather (Serif) & Inter (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: '#1A4D2E',
+                        sand: '#F5F5DC',
+                        gold: '#D4AF37',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes widthGrow { from { width: 0; } to { width: 100%; } }
+        
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
+        .animate-width { animation: widthGrow 2s ease-in-out forwards; }
+
+        /* Hide scrollbar for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Voting Card Transitions */
+        .card-exit-left { transform: translateX(-120%) rotate(-10deg) !important; opacity: 0 !important; }
+        .card-exit-right { transform: translateX(120%) rotate(10deg) !important; opacity: 0 !important; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans overflow-hidden h-screen w-full select-none">
+
+    <!-- INTRO SCREEN -->
+    <div id="intro-screen" class="fixed inset-0 z-[60] bg-forest flex flex-col items-center justify-center text-sand transition-opacity duration-500">
+        <i data-lucide="users" class="w-16 h-16 mb-6 animate-bounce"></i>
+        <h1 class="text-4xl font-serif font-bold tracking-wide mb-2">CaddyAI</h1>
+        <p class="text-xs uppercase tracking-widest opacity-80">Orchestrating your perfect round</p>
+        <div class="mt-12 w-48 h-1 bg-sand/20 rounded-full overflow-hidden">
+            <div class="h-full bg-gold animate-width"></div>
+        </div>
+    </div>
+
+    <!-- APP CONTAINER -->
+    <div class="h-full flex flex-col max-w-md mx-auto bg-gray-50 shadow-2xl relative overflow-hidden">
+        
+        <!-- HEADER -->
+        <header class="bg-forest pt-12 pb-6 px-6 shadow-lg relative overflow-hidden shrink-0">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+                <i data-lucide="users" class="w-32 h-32 text-sand"></i>
+            </div>
+            <div class="flex justify-between items-center relative z-10">
+                <div>
+                    <h3 class="text-sand text-[10px] font-bold tracking-widest uppercase mb-1">The Commissioner's Desk</h3>
+                    <h1 class="text-white text-3xl font-serif tracking-wide">CaddyAI</h1>
+                </div>
+                <div class="bg-sand p-2 rounded-full shadow-md">
+                    <i data-lucide="user" class="w-5 h-5 text-forest"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main id="main-content" class="flex-1 overflow-y-auto no-scrollbar pb-24 relative">
+            
+            <!-- VIEW: DASHBOARD -->
+            <section id="view-dashboard" class="view-section animate-fade-in">
+                <!-- Trip Card -->
+                <div class="m-6 bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100">
+                    <div class="h-32 relative bg-gray-800">
+                        <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?ixlib=rb-4.0.3" class="w-full h-full object-cover opacity-60" alt="Golf Course">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+                            <h2 class="text-2xl font-serif font-bold shadow-sm">Scottsdale Scramble '25</h2>
+                            <p class="text-xs opacity-90 flex items-center gap-1 mt-1">
+                                <i data-lucide="map-pin" class="w-3 h-3"></i> Scottsdale, AZ
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-4 flex justify-between items-center bg-sand/30">
+                        <div class="text-center w-1/2">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold">Countdown</p>
+                            <p class="text-xl font-bold text-forest">142 Days</p>
+                        </div>
+                        <div class="h-8 w-px bg-gray-300"></div>
+                        <div class="text-center w-1/2">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold">Forecast</p>
+                            <p class="text-xl font-bold text-forest flex items-center justify-center gap-1">
+                                <i data-lucide="sun" class="w-4 h-4 text-yellow-600"></i> 82°
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agent Status -->
+                <div class="mx-6 mb-6 bg-forest/5 border border-forest/10 p-3 rounded-lg flex items-center space-x-3">
+                    <div class="bg-forest p-2 rounded-full shrink-0">
+                        <i data-lucide="wind" class="w-4 h-4 text-sand"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-forest uppercase tracking-wider">The Treasurer</p>
+                        <p class="text-xs text-gray-600">Collecting Q1 deposits. 3 players pending.</p>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="px-6 mb-6">
+                    <h3 class="text-lg font-serif font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="bell" class="w-4 h-4 text-gold"></i>
+                        Commissioner Actions
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-gold flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-gray-800 text-sm">Approve Itinerary</p>
+                                <p class="text-xs text-gray-500">The Scout found 3 new tee times.</p>
+                            </div>
+                            <button class="bg-forest text-sand px-3 py-2 rounded text-[10px] font-bold uppercase hover:bg-green-900 transition">Review</button>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500 flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-gray-800 text-sm">Deposit Deadline</p>
+                                <p class="text-xs text-gray-500">3 players have not paid.</p>
+                            </div>
+                            <button onclick="showToast('Nudges sent to 3 players!')" class="bg-white border border-red-500 text-red-500 px-3 py-2 rounded text-[10px] font-bold uppercase hover:bg-red-50 transition">Nudge</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Finance Widget -->
+                <div class="mx-6 mb-8 bg-forest rounded-xl p-6 text-white relative overflow-hidden shadow-lg">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sand text-[10px] font-bold uppercase tracking-wider">Total Pot Collected</p>
+                                <h2 class="text-3xl font-serif mt-1">$11,250</h2>
+                            </div>
+                            <i data-lucide="wallet" class="w-6 h-6 text-gold"></i>
+                        </div>
+                        <div class="w-full bg-white/10 rounded-full h-2 mb-2">
+                            <div class="bg-gold h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <p class="text-[10px] opacity-70 text-right">75% of goal ($15,000)</p>
+                    </div>
+                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-white/5 rounded-full pointer-events-none"></div>
+                </div>
+            </section>
+
+            <!-- VIEW: ROSTER -->
+            <section id="view-roster" class="view-section hidden animate-slide-up px-6 pt-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-serif font-bold text-gray-800">The Roster</h2>
+                    <span class="bg-forest text-white text-[10px] px-3 py-1 rounded-full font-bold">12/12 Full</span>
+                </div>
+                <p class="text-xs text-gray-600 mb-4 italic">Priority determined by deposit timestamp.</p>
+
+                <!-- Active List Container -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 divide-y divide-gray-100 overflow-hidden" id="roster-list">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Cut Line -->
+                <div class="relative my-8 text-center">
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t-2 border-dashed border-red-300"></div></div>
+                    <span class="relative bg-gray-50 px-4 text-[10px] font-bold text-red-500 uppercase tracking-widest">The Cut Line</span>
+                </div>
+
+                <!-- Waitlist Container -->
+                <div class="bg-gray-100 rounded-xl border border-gray-200 divide-y divide-gray-200 opacity-80 mb-8" id="waitlist-list">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- VIEW: VOTE -->
+            <section id="view-vote" class="view-section hidden h-full flex flex-col px-4 pt-6">
+                <div class="text-center mb-4 shrink-0">
+                    <h2 class="text-2xl font-serif font-bold text-gray-800">Consensus Engine</h2>
+                    <p class="text-xs text-gray-500">Swipe right to approve, left to veto.</p>
+                </div>
+
+                <div class="flex-grow relative flex justify-center items-center w-full perspective-1000" id="card-container">
+                    <!-- Active Card -->
+                    <div id="active-card" class="w-full max-w-xs bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 absolute transition-all duration-300 ease-out origin-bottom">
+                        <div class="relative h-56">
+                            <img id="card-img" src="" alt="Option" class="w-full h-full object-cover">
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-full">
+                                <span id="card-match" class="text-[10px] font-bold text-forest">98% Match</span>
+                            </div>
+                            <div class="absolute top-3 left-3 bg-forest px-2 py-1 rounded-full">
+                                <span id="card-type" class="text-[10px] font-bold text-white uppercase">Course</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 id="card-name" class="text-lg font-serif font-bold text-gray-900 leading-tight">Troon North</h3>
+                                <span id="card-price" class="text-sm font-bold text-forest shrink-0 ml-2">$320</span>
+                            </div>
+                            <p class="text-gray-500 text-xs mb-3 flex items-center gap-1">
+                                <i data-lucide="map-pin" class="w-3 h-3"></i> <span id="card-loc">Scottsdale, AZ</span>
+                            </p>
+                            <div id="card-tags" class="flex flex-wrap gap-1 mb-3">
+                                <!-- Tags injected here -->
+                            </div>
+                            <p id="card-desc" class="text-xs text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                                Description text...
+                            </p>
+                            <div class="flex justify-center gap-6">
+                                <button onclick="vote('left')" class="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500 transition-colors">
+                                    <i data-lucide="x" class="w-6 h-6"></i>
+                                </button>
+                                <button onclick="vote('right')" class="w-12 h-12 rounded-full bg-forest text-white flex items-center justify-center shadow-lg hover:bg-green-900 transition-colors">
+                                    <i data-lucide="check" class="w-6 h-6"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Empty State (Hidden initially) -->
+                    <div id="empty-state" class="text-center p-10 hidden">
+                        <div class="bg-forest/10 p-4 rounded-full inline-block mb-4">
+                            <i data-lucide="check-circle" class="w-12 h-12 text-forest"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-gray-800">All caught up!</h3>
+                        <p class="text-gray-500 text-sm">The Commissioner will finalize the itinerary soon.</p>
+                        <button onclick="resetVotes()" class="mt-4 text-xs text-forest underline font-bold">Reset Demo</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: ITINERARY -->
+            <section id="view-itinerary" class="view-section hidden px-6 pt-6 animate-slide-up">
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <h2 class="text-2xl font-serif font-bold text-gray-800">Trip Timeline</h2>
+                        <p class="text-sm text-gray-500">Day 2: Saturday, April 13</p>
+                    </div>
+                    <button class="bg-sand text-forest p-2 rounded-full shadow-sm">
+                        <i data-lucide="plane" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="relative border-l-2 border-forest/20 ml-3 space-y-8 my-8 pb-8">
+                    <!-- Timeline Items Injected via JS -->
+                    <div id="timeline-container"></div>
+                </div>
+                
+                <div class="bg-sand/50 p-4 rounded-lg border border-sand text-center mb-8">
+                    <p class="text-forest font-serif italic font-bold text-xs">"Swing easy, hit hard."</p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- TAB BAR -->
+        <nav class="bg-white border-t border-gray-200 px-6 pb-6 pt-3 flex justify-between items-center z-50 shadow-[-1px_-4px_10px_rgba(0,0,0,0.05)] shrink-0">
+            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn flex flex-col items-center space-y-1 text-forest">
+                <i data-lucide="trophy" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wider">Scorecard</span>
+            </button>
+            <button onclick="switchTab('roster')" id="tab-roster" class="tab-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-forest transition">
+                <i data-lucide="users" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wider">Roster</span>
+            </button>
+            <button onclick="switchTab('vote')" id="tab-vote" class="tab-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-forest transition">
+                <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wider">Vote</span>
+            </button>
+            <button onclick="switchTab('itinerary')" id="tab-itinerary" class="tab-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-forest transition">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wider">Itinerary</span>
+            </button>
+        </nav>
+
+        <!-- TOAST NOTIFICATION -->
+        <div id="toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
+            <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+            <span id="toast-msg">Action Completed</span>
+        </div>
+
+    </div>
+
+    <!-- APP LOGIC -->
+    <script>
+        // --- DATA ---
+        const rosterData = [
+            { name: "Commish Dave", hcp: 8.2, status: 'paid', role: 'Commissioner', avatar: 'CD' },
+            { name: "Mike Ross", hcp: 12.5, status: 'paid', role: 'Player', avatar: 'MR' },
+            { name: "Harvey S.", hcp: 4.1, status: 'paid', role: 'Player', avatar: 'HS' },
+            { name: "Louis Litt", hcp: 18.0, status: 'pending', role: 'Player', avatar: 'LL' },
+            { name: "Donna P.", hcp: 15.3, status: 'paid', role: 'Player', avatar: 'DP' },
+            { name: "Rachel Z.", hcp: 22.1, status: 'pending', role: 'Player', avatar: 'RZ' },
+        ];
+
+        const waitlistData = [
+            { name: "Harold G.", hcp: 24.0 },
+            { name: "Sheila S.", hcp: 19.5 }
+        ];
+
+        const votingData = [
+            {
+                type: 'Course', name: "Troon North (Monument)", location: "Scottsdale, AZ",
+                price: "$320/rd", match: "98% Match",
+                image: "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                desc: "Desert target golf at its finest. High difficulty, but pristine conditions.",
+                tags: ["Views", "Difficult", "Cart"]
+            },
+            {
+                type: 'Course', name: "We-Ko-Pa (Saguaro)", location: "Fort McDowell, AZ",
+                price: "$275/rd", match: "94% Match",
+                image: "https://images.unsplash.com/photo-1605257669488-4211e97d2d22?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                desc: "Walkable layout with wide fairways. Better for the high handicappers.",
+                tags: ["Walkable", "Value", "Scenic"]
+            },
+            {
+                type: 'Housing', name: "The Cactus Mansion", location: "Paradise Valley",
+                price: "$180/pp", match: "99% Match",
+                image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                desc: "14 Beds (No bunks). Putting green in backyard. Heated pool.",
+                tags: ["14 Beds", "Pool", "Poker"]
+            }
+        ];
+
+        const itineraryData = [
+            { time: "08:00 AM", title: "Coffee & Bagels", loc: "The House", type: "food" },
+            { time: "09:45 AM", title: "Tee Time: Troon North", loc: "Monument Course", type: "golf", meta: "2-Man Scramble" },
+            { time: "02:30 PM", title: "19th Hole Drinks", loc: "Troon Clubhouse", type: "social" },
+            { time: "07:00 PM", title: "Steakhouse Dinner", loc: "Mastro's City Hall", type: "food", meta: "Reservation Confirmed" },
+        ];
+
+        // --- STATE ---
+        let currentVoteIndex = 0;
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Remove Intro after delay
+            setTimeout(() => {
+                const intro = document.getElementById('intro-screen');
+                intro.style.opacity = '0';
+                setTimeout(() => intro.remove(), 500);
+            }, 2200);
+
+            renderRoster();
+            renderVoteCard();
+            renderItinerary();
+        });
+
+        // --- NAVIGATION ---
+        function switchTab(tabId) {
+            // Update Content
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+            
+            // Re-trigger animation for the new view
+            const view = document.getElementById(`view-${tabId}`);
+            view.classList.remove('animate-fade-in', 'animate-slide-up');
+            void view.offsetWidth; // trigger reflow
+            view.classList.add('animate-fade-in');
+
+            // Update Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-forest');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.remove('text-gray-400');
+            activeBtn.classList.add('text-forest');
+            
+            // Specific fix for lucide icons sometimes needing refresh
+            lucide.createIcons();
+        }
+
+        // --- ROSTER RENDER ---
+        function renderRoster() {
+            const list = document.getElementById('roster-list');
+            list.innerHTML = rosterData.map((u, i) => `
+                <div class="p-4 flex items-center justify-between bg-white">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[10px] font-bold text-gray-400 w-4">#${i + 1}</span>
+                        <div class="w-8 h-8 rounded-full bg-sand flex items-center justify-center text-forest font-bold text-[10px] border border-forest/20">
+                            ${u.avatar}
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 text-xs">${u.name} ${u.role === 'Commissioner' ? '<i data-lucide="trophy" class="inline w-3 h-3 text-gold ml-1"></i>' : ''}</p>
+                            <p class="text-[10px] text-gray-500">${u.hcp} HCP • <span class="${u.status === 'paid' ? 'text-green-600' : 'text-red-500 font-bold'}">${u.status === 'paid' ? 'Paid' : 'Pending'}</span></p>
+                        </div>
+                    </div>
+                    ${u.status === 'pending' ? `<button onclick="showToast('Nudge sent to ${u.name}')" class="text-[10px] bg-red-50 text-red-600 px-2 py-1 rounded border border-red-100 hover:bg-red-100 transition">Nudge</button>` : ''}
+                </div>
+            `).join('');
+
+            const waitlist = document.getElementById('waitlist-list');
+            waitlist.innerHTML = waitlistData.map((u, i) => `
+                <div class="p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[10px] font-bold text-gray-400 w-4">#${i + 13}</span>
+                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-[10px]">
+                            ${u.name.charAt(0)}${u.name.split(' ')[1]?.charAt(0) || ''}
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-600 text-xs">${u.name}</p>
+                            <p class="text-[10px] text-gray-400">Waitlist • ${u.hcp} HCP</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase text-gray-400 bg-gray-200 px-2 py-1 rounded">On Deck</span>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // --- VOTE LOGIC ---
+        function renderVoteCard() {
+            const container = document.getElementById('active-card');
+            const empty = document.getElementById('empty-state');
+            
+            if (currentVoteIndex >= votingData.length) {
+                container.style.display = 'none';
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            const data = votingData[currentVoteIndex];
+            
+            // Reset Animation classes
+            container.style.display = 'block';
+            container.classList.remove('card-exit-left', 'card-exit-right');
+            empty.classList.add('hidden');
+
+            // Populate Data
+            document.getElementById('card-img').src = data.image;
+            document.getElementById('card-match').textContent = data.match;
+            document.getElementById('card-type').textContent = data.type;
+            document.getElementById('card-name').textContent = data.name;
+            document.getElementById('card-price').textContent = data.price;
+            document.getElementById('card-loc').textContent = data.location;
+            document.getElementById('card-desc').textContent = data.desc;
+
+            const tagsContainer = document.getElementById('card-tags');
+            tagsContainer.innerHTML = data.tags.map(t => `<span class="bg-sand text-forest text-[10px] font-bold uppercase px-2 py-1 rounded">${t}</span>`).join('');
+        }
+
+        function vote(direction) {
+            const card = document.getElementById('active-card');
+            if (direction === 'left') {
+                card.classList.add('card-exit-left');
+                showToast('Voted: Veto');
+            } else {
+                card.classList.add('card-exit-right');
+                showToast('Voted: Approved');
+            }
+
+            setTimeout(() => {
+                currentVoteIndex++;
+                renderVoteCard();
+            }, 300);
+        }
+
+        function resetVotes() {
+            currentVoteIndex = 0;
+            renderVoteCard();
+        }
+
+        // --- ITINERARY RENDER ---
+        function renderItinerary() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = itineraryData.map((item) => `
+                <div class="relative pl-8">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white shadow-sm ${item.type === 'golf' ? 'bg-forest' : 'bg-gold'}"></div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="text-[10px] font-bold text-gold uppercase tracking-wider">${item.time}</span>
+                            ${item.type === 'golf' ? '<i data-lucide="wind" class="w-3 h-3 text-gray-400"></i>' : ''}
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg font-serif">${item.title}</h3>
+                        <p class="text-xs text-gray-500 flex items-center gap-1 mb-2">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> ${item.loc}
+                        </p>
+                        ${item.meta ? `
+                        <div class="bg-gray-50 p-2 rounded text-[10px] text-gray-600 font-medium border border-gray-100 inline-block">
+                            ${item.meta}
+                        </div>` : ''}
+                        
+                        ${item.type === 'golf' ? `
+                        <div class="mt-3 flex gap-2">
+                            <button class="flex-1 bg-forest text-white text-[10px] py-2 rounded font-bold hover:bg-green-900">Course Guide</button>
+                            <button class="flex-1 bg-white border border-gray-300 text-gray-700 text-[10px] py-2 rounded font-bold hover:bg-gray-50">Scorecard</button>
+                        </div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // --- UTILS ---
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "TheCaddy.AI",
+  "version": "1.0.0",
+  "identifier": "ai.thecaddy.app",
+  "build": {
+    "frontendDist": "../out",
+    "devUrl": "http://localhost:3000/demo-mobile",
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "TheCaddy.AI - Golf Trip Planner",
+        "width": 430,
+        "height": 932,
+        "minWidth": 375,
+        "minHeight": 812,
+        "maxWidth": 430,
+        "maxHeight": 932,
+        "resizable": false,
+        "fullscreen": false,
+        "center": true,
+        "decorations": true,
+        "transparent": false,
+        "alwaysOnTop": false
+      }
+    ],
+    "security": {
+      "csp": null
+    },
+    "macOSPrivateApi": true
+  },
+  "bundle": {
+    "active": true,
+    "targets": "dmg",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "10.15"
+    }
+  }
+}

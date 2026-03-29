@@ -1,0 +1,700 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00B6508F39C656BE55429C0A /* LoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C415B5F7AF4A8FE5C60DB78 /* LoadingSpinner.swift */; };
+		058703692E9506DF5C29A642 /* CaddyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420753DDE9C4B53B1D228B6 /* CaddyCard.swift */; };
+		099F749372A0AFE8A2FCA94C /* Fund.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94156894D7A4EF37D2709F32 /* Fund.swift */; };
+		0BC81BC18E5AD1762673202F /* SkeletonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972AB711F2F3F68DD9229D5C /* SkeletonLoader.swift */; };
+		1F96D244201C78080ED76A2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55CCCC98C6EC6175CCC516FF /* Assets.xcassets */; };
+		21BB7C417E73182CE0FFB3B2 /* SwipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E68987846358687CDA6888 /* SwipeCardView.swift */; };
+		2919B6202B18DB7DC7CC09AD /* LeaderboardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C55FE4E4C070E17C8092240 /* LeaderboardCard.swift */; };
+		2F6440F75EB2BE33B678A449 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DF9186F1A3A0E0B3CB21F8 /* Typography.swift */; };
+		32DD3C4D1ACAD83F582B79A1 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C560CFBCF6119FCCD6FAA629 /* EmptyState.swift */; };
+		3C97C11440DE47BFB2AC30AD /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727E2B90003561FACF89EFA7 /* PaymentView.swift */; };
+		44788A7A6382531E1EB3F968 /* Itinerary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774C8619EC3A00BFDD01A3F0 /* Itinerary.swift */; };
+		4B279C5047ED8FA414B3BF94 /* ScorecardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44665C746CD2086828F8C9F /* ScorecardView.swift */; };
+		4D288C34A47913C67FF10698 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A106449FFE417301E36DD4 /* Haptics.swift */; };
+		4D30344C021C74EA6E0903C9 /* VoteResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39ACD4E9C71D6ECD7C2F9612 /* VoteResultsView.swift */; };
+		51B9FEAD876F76AE6DE28DFE /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7D4C565296F5BE8F226685 /* APIError.swift */; };
+		5F166A6A4DE2D643BF76389E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1197A8447BC35CDBDFFBE5 /* ContentView.swift */; };
+		5F7A3F5CB8514004F2D80357 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147D39EFA8436EB4C3F70AB9 /* Colors.swift */; };
+		64820A16F6BB67A7D4A7F2D9 /* CaddyAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27367CD094003B960296C5 /* CaddyAIApp.swift */; };
+		6554006895F9E1CEFC091CF2 /* TripPlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EED9B2635F1A32CA12D265 /* TripPlannerView.swift */; };
+		6CC64F0EFF81F661B2AB5DB4 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1761DB223CB8AE1722B1F8 /* Trip.swift */; };
+		6F52559B9342E76716D38BB2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCF8F733B3A3E87A0F9B4D0 /* DashboardView.swift */; };
+		6FF11A23CD3E006BC1FA6777 /* Roster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC84CC2BFE415E5CDAF681 /* Roster.swift */; };
+		7D07F45B4AFAEDA2AFFA3E32 /* CaddyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A2D4DA1811CD9DE78026C1 /* CaddyButton.swift */; };
+		80056C78138F6A63E4C67F1F /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD077CD82A38AFB2AE0DB6F /* Vote.swift */; };
+		82729579193313DCEE610864 /* PaymentSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBE1591C58E377A387524B8 /* PaymentSuccessView.swift */; };
+		9121986C0D69DE65C2EB273A /* SwipeCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAA6F3E8D60385E912B716A /* SwipeCardStack.swift */; };
+		969107E2AFBF00CBB6467158 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDF2B93DBDA71DB22FDDA88 /* SplashView.swift */; };
+		96FBB9494A058FC9177F9383 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5423DD66E6D7F66BF803C381 /* ProgressBar.swift */; };
+		9AB961B0AE57021BDD741726 /* RosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E78215474A31683056985A /* RosterView.swift */; };
+		9F7525562C7E4E8D5B6A9C13 /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3170C22A7781522D258C6D63 /* Leaderboard.swift */; };
+		A5B9832646554B029EE20CD6 /* TripEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3732ED35EA5111FDAF99FF73 /* TripEntryView.swift */; };
+		A687DFAEE4829AC7536CECE1 /* AddRequestsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43104316CE340158A035F603 /* AddRequestsSheet.swift */; };
+		C86ADF01B55D1E8C59F8FFA9 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8F9DDFC87EA7F5C7240408 /* OnboardingView.swift */; };
+		CA417589D219B625F183963E /* PaymentRequestRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE00009F6CDEA786C04A7CF1 /* PaymentRequestRow.swift */; };
+		D4868EF2EF4B3B23DBB78CE6 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C170DF0D8529636F76E5B5A /* APIClient.swift */; };
+		D5B8E0717039A684FBA6432F /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75283E0EDFBA70D372877959 /* APIEndpoint.swift */; };
+		D5EFBFA19A6E66368CE770B4 /* CaddyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858DED96647A08732AC8CFB8 /* CaddyTextField.swift */; };
+		F11D109285EDF57CADBD4D0D /* ItineraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0013DDF44A0DA4DC61236F34 /* ItineraryView.swift */; };
+		F2DF1C132E93353273A61653 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87958914FC8AC6AA96F42D0 /* AppState.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D651263479056DB2E9B34837 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9BEBC50ACAC26E6F877C866 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82320D908A7108EB795CC15E;
+			remoteInfo = CaddyAI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0013DDF44A0DA4DC61236F34 /* ItineraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryView.swift; sourceTree = "<group>"; };
+		0C415B5F7AF4A8FE5C60DB78 /* LoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
+		1420753DDE9C4B53B1D228B6 /* CaddyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaddyCard.swift; sourceTree = "<group>"; };
+		147D39EFA8436EB4C3F70AB9 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		1E8F9DDFC87EA7F5C7240408 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		2F27367CD094003B960296C5 /* CaddyAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaddyAIApp.swift; sourceTree = "<group>"; };
+		3170C22A7781522D258C6D63 /* Leaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
+		341B2FCB23FE56024044671D /* CaddyAITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CaddyAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3732ED35EA5111FDAF99FF73 /* TripEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripEntryView.swift; sourceTree = "<group>"; };
+		39ACD4E9C71D6ECD7C2F9612 /* VoteResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultsView.swift; sourceTree = "<group>"; };
+		3C55FE4E4C070E17C8092240 /* LeaderboardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardCard.swift; sourceTree = "<group>"; };
+		43104316CE340158A035F603 /* AddRequestsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRequestsSheet.swift; sourceTree = "<group>"; };
+		4BBE1591C58E377A387524B8 /* PaymentSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSuccessView.swift; sourceTree = "<group>"; };
+		5423DD66E6D7F66BF803C381 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		55CCCC98C6EC6175CCC516FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		57E78215474A31683056985A /* RosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterView.swift; sourceTree = "<group>"; };
+		5CD077CD82A38AFB2AE0DB6F /* Vote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
+		5F1197A8447BC35CDBDFFBE5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6BDF2B93DBDA71DB22FDDA88 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		70DF9186F1A3A0E0B3CB21F8 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		727E2B90003561FACF89EFA7 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
+		75283E0EDFBA70D372877959 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
+		76E68987846358687CDA6888 /* SwipeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCardView.swift; sourceTree = "<group>"; };
+		774C8619EC3A00BFDD01A3F0 /* Itinerary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Itinerary.swift; sourceTree = "<group>"; };
+		7B7298A5C77F631E252BF0B6 /* CaddyAI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CaddyAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FCF8F733B3A3E87A0F9B4D0 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		858DED96647A08732AC8CFB8 /* CaddyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaddyTextField.swift; sourceTree = "<group>"; };
+		8C170DF0D8529636F76E5B5A /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		94156894D7A4EF37D2709F32 /* Fund.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fund.swift; sourceTree = "<group>"; };
+		972AB711F2F3F68DD9229D5C /* SkeletonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoader.swift; sourceTree = "<group>"; };
+		9AFC84CC2BFE415E5CDAF681 /* Roster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Roster.swift; sourceTree = "<group>"; };
+		9CAA6F3E8D60385E912B716A /* SwipeCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCardStack.swift; sourceTree = "<group>"; };
+		AA1761DB223CB8AE1722B1F8 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		AE00009F6CDEA786C04A7CF1 /* PaymentRequestRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequestRow.swift; sourceTree = "<group>"; };
+		AF7D4C565296F5BE8F226685 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		B8EED9B2635F1A32CA12D265 /* TripPlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlannerView.swift; sourceTree = "<group>"; };
+		C44665C746CD2086828F8C9F /* ScorecardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorecardView.swift; sourceTree = "<group>"; };
+		C560CFBCF6119FCCD6FAA629 /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
+		E8A2D4DA1811CD9DE78026C1 /* CaddyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaddyButton.swift; sourceTree = "<group>"; };
+		F2A106449FFE417301E36DD4 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		F87958914FC8AC6AA96F42D0 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		12FAB38CB1F32135D4520270 /* Roster */ = {
+			isa = PBXGroup;
+			children = (
+				57E78215474A31683056985A /* RosterView.swift */,
+			);
+			path = Roster;
+			sourceTree = "<group>";
+		};
+		13E6FFB2757CE35B61ABBE85 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				1E8F9DDFC87EA7F5C7240408 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		2BAF69266118A16D45087918 /* TripPlanning */ = {
+			isa = PBXGroup;
+			children = (
+				B8EED9B2635F1A32CA12D265 /* TripPlannerView.swift */,
+			);
+			path = TripPlanning;
+			sourceTree = "<group>";
+		};
+		350CA1B7BED3DEC9C5A39422 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				6BDF2B93DBDA71DB22FDDA88 /* SplashView.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		46B7052D37BC6210EA0D7A48 /* Scorecard */ = {
+			isa = PBXGroup;
+			children = (
+				3C55FE4E4C070E17C8092240 /* LeaderboardCard.swift */,
+				C44665C746CD2086828F8C9F /* ScorecardView.swift */,
+			);
+			path = Scorecard;
+			sourceTree = "<group>";
+		};
+		4C5BA8CE9F1EF6FD1AFF0351 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				4BBE1591C58E377A387524B8 /* PaymentSuccessView.swift */,
+				727E2B90003561FACF89EFA7 /* PaymentView.swift */,
+			);
+			path = Payment;
+			sourceTree = "<group>";
+		};
+		5A5A64AF7A64A81F3066B86D /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				6BDE40D484687AB2471273FA /* Components */,
+				147D39EFA8436EB4C3F70AB9 /* Colors.swift */,
+				F2A106449FFE417301E36DD4 /* Haptics.swift */,
+				70DF9186F1A3A0E0B3CB21F8 /* Typography.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		63123B31F606F775CC5500FE /* Trip */ = {
+			isa = PBXGroup;
+			children = (
+				3732ED35EA5111FDAF99FF73 /* TripEntryView.swift */,
+			);
+			path = Trip;
+			sourceTree = "<group>";
+		};
+		6BDE40D484687AB2471273FA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E8A2D4DA1811CD9DE78026C1 /* CaddyButton.swift */,
+				1420753DDE9C4B53B1D228B6 /* CaddyCard.swift */,
+				858DED96647A08732AC8CFB8 /* CaddyTextField.swift */,
+				C560CFBCF6119FCCD6FAA629 /* EmptyState.swift */,
+				0C415B5F7AF4A8FE5C60DB78 /* LoadingSpinner.swift */,
+				5423DD66E6D7F66BF803C381 /* ProgressBar.swift */,
+				972AB711F2F3F68DD9229D5C /* SkeletonLoader.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		81B750B7F8D7BAC9E7B713C1 /* Voting */ = {
+			isa = PBXGroup;
+			children = (
+				9CAA6F3E8D60385E912B716A /* SwipeCardStack.swift */,
+				76E68987846358687CDA6888 /* SwipeCardView.swift */,
+				39ACD4E9C71D6ECD7C2F9612 /* VoteResultsView.swift */,
+			);
+			path = Voting;
+			sourceTree = "<group>";
+		};
+		8379A72A66E97C133D1D8E05 /* CaddyAI */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AD028BE51C1225BE39F23 /* Core */,
+				BE0A0CE381871295E8A79A55 /* Features */,
+				F981B6EECE38259C217B78E4 /* Resources */,
+				2F27367CD094003B960296C5 /* CaddyAIApp.swift */,
+				5F1197A8447BC35CDBDFFBE5 /* ContentView.swift */,
+			);
+			path = CaddyAI;
+			sourceTree = "<group>";
+		};
+		882CF354A7EAD30F8306CA90 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				8C170DF0D8529636F76E5B5A /* APIClient.swift */,
+				75283E0EDFBA70D372877959 /* APIEndpoint.swift */,
+				AF7D4C565296F5BE8F226685 /* APIError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9A2AD0AB1711F2EECAC4BA9A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B7298A5C77F631E252BF0B6 /* CaddyAI.app */,
+				341B2FCB23FE56024044671D /* CaddyAITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9C3AD028BE51C1225BE39F23 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				5A5A64AF7A64A81F3066B86D /* Design */,
+				B763278EF538A0AF542D6C33 /* Models */,
+				882CF354A7EAD30F8306CA90 /* Network */,
+				F87958914FC8AC6AA96F42D0 /* AppState.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9CD9ACB48B5858C2A88D31EA /* Itinerary */ = {
+			isa = PBXGroup;
+			children = (
+				0013DDF44A0DA4DC61236F34 /* ItineraryView.swift */,
+			);
+			path = Itinerary;
+			sourceTree = "<group>";
+		};
+		B763278EF538A0AF542D6C33 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				94156894D7A4EF37D2709F32 /* Fund.swift */,
+				774C8619EC3A00BFDD01A3F0 /* Itinerary.swift */,
+				3170C22A7781522D258C6D63 /* Leaderboard.swift */,
+				9AFC84CC2BFE415E5CDAF681 /* Roster.swift */,
+				AA1761DB223CB8AE1722B1F8 /* Trip.swift */,
+				5CD077CD82A38AFB2AE0DB6F /* Vote.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BD0F54A55D19BF61A0A65319 = {
+			isa = PBXGroup;
+			children = (
+				8379A72A66E97C133D1D8E05 /* CaddyAI */,
+				9A2AD0AB1711F2EECAC4BA9A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BE0A0CE381871295E8A79A55 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				D018FDBEDD8E4FA816062E0C /* Dashboard */,
+				9CD9ACB48B5858C2A88D31EA /* Itinerary */,
+				13E6FFB2757CE35B61ABBE85 /* Onboarding */,
+				4C5BA8CE9F1EF6FD1AFF0351 /* Payment */,
+				12FAB38CB1F32135D4520270 /* Roster */,
+				46B7052D37BC6210EA0D7A48 /* Scorecard */,
+				350CA1B7BED3DEC9C5A39422 /* Splash */,
+				63123B31F606F775CC5500FE /* Trip */,
+				2BAF69266118A16D45087918 /* TripPlanning */,
+				81B750B7F8D7BAC9E7B713C1 /* Voting */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		D018FDBEDD8E4FA816062E0C /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				43104316CE340158A035F603 /* AddRequestsSheet.swift */,
+				7FCF8F733B3A3E87A0F9B4D0 /* DashboardView.swift */,
+				AE00009F6CDEA786C04A7CF1 /* PaymentRequestRow.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		F981B6EECE38259C217B78E4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				55CCCC98C6EC6175CCC516FF /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		82320D908A7108EB795CC15E /* CaddyAI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 420655ED69A00FA0AE1AF405 /* Build configuration list for PBXNativeTarget "CaddyAI" */;
+			buildPhases = (
+				7EA4D301FD743EE0A9C32A98 /* Sources */,
+				53A0488924E4520EBACE8D39 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CaddyAI;
+			packageProductDependencies = (
+			);
+			productName = CaddyAI;
+			productReference = 7B7298A5C77F631E252BF0B6 /* CaddyAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8ECC96394233801233F043FF /* CaddyAITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B9A6F364100B047EB768B05A /* Build configuration list for PBXNativeTarget "CaddyAITests" */;
+			buildPhases = (
+				0D57651CA47602B094619BEE /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D7ED318FC25F01C977D6FBA /* PBXTargetDependency */,
+			);
+			name = CaddyAITests;
+			packageProductDependencies = (
+			);
+			productName = CaddyAITests;
+			productReference = 341B2FCB23FE56024044671D /* CaddyAITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9BEBC50ACAC26E6F877C866 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					82320D908A7108EB795CC15E = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					8ECC96394233801233F043FF = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 5754D3878CFCD4FC3F8B26D0 /* Build configuration list for PBXProject "CaddyAI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BD0F54A55D19BF61A0A65319;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				82320D908A7108EB795CC15E /* CaddyAI */,
+				8ECC96394233801233F043FF /* CaddyAITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		53A0488924E4520EBACE8D39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F96D244201C78080ED76A2D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0D57651CA47602B094619BEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EA4D301FD743EE0A9C32A98 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4868EF2EF4B3B23DBB78CE6 /* APIClient.swift in Sources */,
+				D5B8E0717039A684FBA6432F /* APIEndpoint.swift in Sources */,
+				51B9FEAD876F76AE6DE28DFE /* APIError.swift in Sources */,
+				A687DFAEE4829AC7536CECE1 /* AddRequestsSheet.swift in Sources */,
+				F2DF1C132E93353273A61653 /* AppState.swift in Sources */,
+				64820A16F6BB67A7D4A7F2D9 /* CaddyAIApp.swift in Sources */,
+				7D07F45B4AFAEDA2AFFA3E32 /* CaddyButton.swift in Sources */,
+				058703692E9506DF5C29A642 /* CaddyCard.swift in Sources */,
+				D5EFBFA19A6E66368CE770B4 /* CaddyTextField.swift in Sources */,
+				5F7A3F5CB8514004F2D80357 /* Colors.swift in Sources */,
+				5F166A6A4DE2D643BF76389E /* ContentView.swift in Sources */,
+				6F52559B9342E76716D38BB2 /* DashboardView.swift in Sources */,
+				32DD3C4D1ACAD83F582B79A1 /* EmptyState.swift in Sources */,
+				099F749372A0AFE8A2FCA94C /* Fund.swift in Sources */,
+				4D288C34A47913C67FF10698 /* Haptics.swift in Sources */,
+				44788A7A6382531E1EB3F968 /* Itinerary.swift in Sources */,
+				F11D109285EDF57CADBD4D0D /* ItineraryView.swift in Sources */,
+				9F7525562C7E4E8D5B6A9C13 /* Leaderboard.swift in Sources */,
+				2919B6202B18DB7DC7CC09AD /* LeaderboardCard.swift in Sources */,
+				00B6508F39C656BE55429C0A /* LoadingSpinner.swift in Sources */,
+				C86ADF01B55D1E8C59F8FFA9 /* OnboardingView.swift in Sources */,
+				CA417589D219B625F183963E /* PaymentRequestRow.swift in Sources */,
+				82729579193313DCEE610864 /* PaymentSuccessView.swift in Sources */,
+				3C97C11440DE47BFB2AC30AD /* PaymentView.swift in Sources */,
+				96FBB9494A058FC9177F9383 /* ProgressBar.swift in Sources */,
+				6FF11A23CD3E006BC1FA6777 /* Roster.swift in Sources */,
+				9AB961B0AE57021BDD741726 /* RosterView.swift in Sources */,
+				4B279C5047ED8FA414B3BF94 /* ScorecardView.swift in Sources */,
+				0BC81BC18E5AD1762673202F /* SkeletonLoader.swift in Sources */,
+				969107E2AFBF00CBB6467158 /* SplashView.swift in Sources */,
+				9121986C0D69DE65C2EB273A /* SwipeCardStack.swift in Sources */,
+				21BB7C417E73182CE0FFB3B2 /* SwipeCardView.swift in Sources */,
+				6CC64F0EFF81F661B2AB5DB4 /* Trip.swift in Sources */,
+				A5B9832646554B029EE20CD6 /* TripEntryView.swift in Sources */,
+				6554006895F9E1CEFC091CF2 /* TripPlannerView.swift in Sources */,
+				2F6440F75EB2BE33B678A449 /* Typography.swift in Sources */,
+				80056C78138F6A63E4C67F1F /* Vote.swift in Sources */,
+				4D30344C021C74EA6E0903C9 /* VoteResultsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0D7ED318FC25F01C977D6FBA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82320D908A7108EB795CC15E /* CaddyAI */;
+			targetProxy = D651263479056DB2E9B34837 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1726E51EB689E002CC6FA1D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CaddyAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CaddyAI";
+			};
+			name = Debug;
+		};
+		3BF38DBDBEFE5B5688AA65C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.caddyai.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5630A7C4D025EDDAEA3B2403 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = CaddyAI;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_NAME = CaddyAI;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6CF55BB70C712C1B017BCAAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = CaddyAI;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_NAME = CaddyAI;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B0589314884CA89AA3A82201 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.caddyai.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FC3E4ECA21FD108E9508C7FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CaddyAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CaddyAI";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		420655ED69A00FA0AE1AF405 /* Build configuration list for PBXNativeTarget "CaddyAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5630A7C4D025EDDAEA3B2403 /* Debug */,
+				6CF55BB70C712C1B017BCAAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5754D3878CFCD4FC3F8B26D0 /* Build configuration list for PBXProject "CaddyAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BF38DBDBEFE5B5688AA65C7 /* Debug */,
+				B0589314884CA89AA3A82201 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B9A6F364100B047EB768B05A /* Build configuration list for PBXNativeTarget "CaddyAITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1726E51EB689E002CC6FA1D6 /* Debug */,
+				FC3E4ECA21FD108E9508C7FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9BEBC50ACAC26E6F877C866 /* Project object */;
+}
