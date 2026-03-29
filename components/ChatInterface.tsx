@@ -147,13 +147,14 @@ export default function ChatInterface() {
         throw new Error(data.error);
       }
 
-      // Store options
-      usePlanningStore.setState({ options: data.options });
+      // Store options - handle both response shapes
+      const planOptions = data.data?.options || data.options || [];
+      usePlanningStore.setState({ options: planOptions });
 
       addMessage({
         role: 'assistant',
-        content: `I've created ${data.options.length} trip options for you! Check them out below.`,
-        metadata: { options: data.options },
+        content: `I've created ${planOptions.length} trip options for you! Check them out below.`,
+        metadata: { options: planOptions },
       });
 
       setState('S4_PRESENTATION');

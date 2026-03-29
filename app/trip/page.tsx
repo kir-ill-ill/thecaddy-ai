@@ -232,15 +232,16 @@ export default function TripPlannerPage() {
       console.log('Plan response data:', data);
 
       if (!response.ok || data.error) {
-        throw new Error(data.error || 'Failed to generate options');
+        throw new Error(data.error?.message || data.error || 'Failed to generate options');
       }
 
-      console.log('Options from response:', data.options);
-      setOptions(data.options || []);
+      const planOptions = data.data?.options || data.options || [];
+      console.log('Options from response:', planOptions);
+      setOptions(planOptions);
 
       addMessage({
         role: 'assistant',
-        content: `I've created ${data.options?.length || 0} trip options for you! Check them out and let me know which ones you like.`,
+        content: `I've created ${planOptions.length} trip options for you! Check them out and let me know which ones you like.`,
       });
     } catch (error) {
       console.error('Error generating options:', error);
@@ -436,7 +437,7 @@ export default function TripPlannerPage() {
 
                           <div>
                             <h4 className="font-semibold text-gray-900 mb-2">Lodging</h4>
-                            <p className="text-sm text-gray-700">{option.lodging.type} in {option.lodging.area}</p>
+                            <p className="text-sm text-gray-700">{option.lodging.type} in {option.lodging.name_or_area}</p>
                           </div>
 
                           <div>

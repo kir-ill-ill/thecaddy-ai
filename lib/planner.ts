@@ -281,7 +281,7 @@ function calculateCostEstimate(
   // Lodging costs (per person)
   let lodgingTotal = 0;
   if (lodging) {
-    const nightlyRate = (lodging.price_per_night_low || 150 + lodging.price_per_night_high || 250) / 2;
+    const nightlyRate = ((lodging.price_per_night_low || 150) + (lodging.price_per_night_high || 250)) / 2;
     const roomsNeeded = Math.ceil(players / (lodging.sleeps || 4));
     lodgingTotal = (nightlyRate * nights * roomsNeeded) / players;
   } else {

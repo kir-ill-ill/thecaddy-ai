@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Loader2, CheckCircle, XCircle } from 'lucide-react';
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -49,35 +49,50 @@ export default function AuthCallbackPage() {
   }, [searchParams, router]);
 
   return (
+    <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
+      {status === 'loading' && (
+        <>
+          <Loader2 className="w-16 h-16 text-emerald-600 animate-spin mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-800">{message}</h2>
+        </>
+      )}
+
+      {status === 'success' && (
+        <>
+          <CheckCircle className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-800">{message}</h2>
+        </>
+      )}
+
+      {status === 'error' && (
+        <>
+          <XCircle className="w-16 h-16 text-red-600 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-800">{message}</h2>
+          <button
+            onClick={() => router.push('/login')}
+            className="mt-4 px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+          >
+            Back to Login
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-900 to-emerald-950 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-        {status === 'loading' && (
-          <>
+      <Suspense
+        fallback={
+          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
             <Loader2 className="w-16 h-16 text-emerald-600 animate-spin mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-800">{message}</h2>
-          </>
-        )}
-
-        {status === 'success' && (
-          <>
-            <CheckCircle className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-800">{message}</h2>
-          </>
-        )}
-
-        {status === 'error' && (
-          <>
-            <XCircle className="w-16 h-16 text-red-600 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-800">{message}</h2>
-            <button
-              onClick={() => router.push('/login')}
-              className="mt-4 px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
-            >
-              Back to Login
-            </button>
-          </>
-        )}
-      </div>
+            <h2 className="text-xl font-semibold text-gray-800">Signing you in...</h2>
+          </div>
+        }
+      >
+        <AuthCallbackContent />
+      </Suspense>
     </div>
   );
 }

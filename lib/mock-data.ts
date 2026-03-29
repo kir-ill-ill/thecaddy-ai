@@ -47,11 +47,11 @@ export function mockExtractTripBrief(userMessage: string, existingBrief?: Partia
 
   // Extract preferences
   if (message.includes('bachelor')) {
-    brief.preferences = { vibe: 'party_focused', lodging: 'resort' };
+    brief.preferences = { vibe: 'casual', lodging: 'resort' };
   } else if (message.includes('luxury') || message.includes('high end')) {
-    brief.preferences = { vibe: 'luxury', lodging: 'resort' };
+    brief.preferences = { vibe: 'mixed', lodging: 'resort' };
   } else {
-    brief.preferences = { vibe: 'golf_focused', lodging: 'golf_resort' };
+    brief.preferences = { vibe: 'competitive_fun', lodging: 'resort' };
   }
 
   // Check what's missing
@@ -110,9 +110,9 @@ export function mockGenerateTripOptions(tripBrief: Partial<TripBrief>): TripOpti
         }
       ],
       lodging: {
-        type: 'Golf Resort',
-        area: 'North Scottsdale',
-        features: ['Pool', 'Spa', 'Multiple restaurants', 'Golf shop']
+        type: 'resort',
+        name_or_area: 'North Scottsdale',
+        nights: 3,
       },
       itinerary: [
         {
@@ -185,9 +185,9 @@ export function mockGenerateTripOptions(tripBrief: Partial<TripBrief>): TripOpti
         }
       ],
       lodging: {
-        type: 'Hotel',
-        area: 'Central Scottsdale',
-        features: ['Pool', 'Breakfast included', 'Shuttle service']
+        type: 'hotel',
+        name_or_area: 'Central Scottsdale',
+        nights: 2,
       },
       itinerary: [
         {
@@ -254,9 +254,9 @@ export function mockGenerateTripOptions(tripBrief: Partial<TripBrief>): TripOpti
         }
       ],
       lodging: {
-        type: '5-Star Resort',
-        area: 'North Scottsdale',
-        features: ['Championship golf', 'Fine dining', 'Full spa', 'Concierge service', 'Private villas']
+        type: 'resort',
+        name_or_area: 'North Scottsdale',
+        nights: 3,
       },
       itinerary: [
         {
