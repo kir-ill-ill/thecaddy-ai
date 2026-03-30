@@ -195,7 +195,7 @@ export function generateTripPDF(trip: StoredTrip, winningOption?: TripOption): B
     doc.setTextColor(COLORS.gray);
     doc.text(`Type: ${option.lodging.type}`, 20, yPos);
     yPos += 6;
-    doc.text(`Location: ${option.lodging.area}`, 20, yPos);
+    doc.text(`Location: ${option.lodging.name_or_area}`, 20, yPos);
     yPos += 10;
 
     // === ITINERARY ===
@@ -211,7 +211,7 @@ export function generateTripPDF(trip: StoredTrip, winningOption?: TripOption): B
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(COLORS.forest);
-        doc.text(day.day, 20, yPos);
+        doc.text(day.day || day.day_label || '', 20, yPos);
         yPos += 6;
 
         // Day items

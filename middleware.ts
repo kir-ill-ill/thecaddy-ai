@@ -34,11 +34,11 @@ function checkRateLimit(key: string): { allowed: boolean; remaining: number; res
 // Cleanup old rate limit records periodically
 setInterval(() => {
   const now = Date.now();
-  for (const [key, record] of rateLimitMap.entries()) {
+  Array.from(rateLimitMap.entries()).forEach(([key, record]) => {
     if (now > record.resetTime) {
       rateLimitMap.delete(key);
     }
-  }
+  });
 }, RATE_LIMIT_WINDOW_MS);
 
 export function middleware(req: NextRequest) {

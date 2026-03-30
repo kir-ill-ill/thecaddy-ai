@@ -16,9 +16,10 @@ interface TripOptionCard {
   tagline?: string;
   destination: string;
   courses: Course[];
-  cost_estimate: {
+  cost_estimate?: {
     per_person_estimated: number;
   };
+  cost_per_person?: number;
   why_it_fits: string[];
   score_breakdown?: {
     total: number;
@@ -169,7 +170,7 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
           <div className="inline-flex items-center gap-1 bg-white px-4 py-2 rounded-full shadow-lg border-2 border-gold/30">
             <DollarSign className="w-5 h-5 text-gold" />
             <span className="text-2xl font-bold text-gray-900">
-              {option.cost_estimate.per_person_estimated}
+              {option.cost_estimate?.per_person_estimated || option.cost_per_person || 0}
             </span>
             <span className="text-sm text-gray-500">/person</span>
           </div>

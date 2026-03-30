@@ -49,13 +49,15 @@ export default function TripOptionCard({ option, onSelect, selected }: TripOptio
               <p className="text-3xl font-bold text-forest">
                 ${option.cost_estimate.per_person_estimated}
               </p>
-              <p className="text-xs text-forest/70 mt-1">
-                {option.cost_estimate.confidence} confidence
-              </p>
+              {option.cost_estimate.confidence && (
+                <p className="text-xs text-forest/70 mt-1">
+                  {option.cost_estimate.confidence} confidence
+                </p>
+              )}
             </div>
             <div className="text-right">
               <div className="w-16 h-16 rounded-full bg-white border-2 border-gold/30 flex flex-col items-center justify-center">
-                <p className="text-2xl font-bold text-gold">{Math.round(option.score_breakdown.total)}</p>
+                <p className="text-2xl font-bold text-gold">{Math.round(option.score_breakdown?.total || 0)}</p>
                 <p className="text-[10px] text-gray-500 font-medium">Score</p>
               </div>
             </div>
@@ -115,11 +117,11 @@ export default function TripOptionCard({ option, onSelect, selected }: TripOptio
           </summary>
           <div className="space-y-2 mt-3 pb-2">
             {[
-              { label: 'Golf', amount: option.cost_estimate.breakdown.golf },
-              { label: 'Lodging', amount: option.cost_estimate.breakdown.lodging },
-              { label: 'Food', amount: option.cost_estimate.breakdown.food },
-              { label: 'Transport', amount: option.cost_estimate.breakdown.local_transport },
-              { label: 'Misc', amount: option.cost_estimate.breakdown.misc },
+              { label: 'Golf', amount: option.cost_estimate.breakdown?.golf || 0 },
+              { label: 'Lodging', amount: option.cost_estimate.breakdown?.lodging || 0 },
+              { label: 'Food', amount: option.cost_estimate.breakdown?.food || 0 },
+              { label: 'Transport', amount: option.cost_estimate.breakdown?.local_transport || 0 },
+              { label: 'Misc', amount: option.cost_estimate.breakdown?.misc || 0 },
             ].map((item) => (
               <div key={item.label} className="flex justify-between text-gray-600">
                 <span>{item.label}:</span>

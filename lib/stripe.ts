@@ -20,7 +20,7 @@ let _stripe: Stripe | null = null;
 export function getStripe(): Stripe {
   if (!_stripe) {
     _stripe = new Stripe(getStripeSecretKey(), {
-      apiVersion: '2024-12-18.acacia',
+      apiVersion: '2025-12-15.clover' as Stripe.LatestApiVersion,
       typescript: true,
     });
   }

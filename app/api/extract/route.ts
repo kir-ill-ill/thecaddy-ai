@@ -15,7 +15,9 @@ export async function POST(req: NextRequest) {
     // Use mock data by default to save API costs
     if (USE_MOCK_DATA) {
       console.log('Using mock data for extract (cost optimization)');
-      const result = mockExtractTripBrief(user_message, chat_context);
+      // chat_context may be the existing brief directly, or a { known_trip_brief } wrapper
+      const existingBrief = chat_context?.known_trip_brief || chat_context || {};
+      const result = mockExtractTripBrief(user_message, existingBrief as any);
       return NextResponse.json(result);
     }
 

@@ -46,7 +46,7 @@ export function mockExtractTripBrief(userMessage: string, existingBrief?: Partia
       if (match) {
         const budget = parseInt(match[1].replace(/[,.]/g, ''));
         if (budget > 0) {
-          brief.budget = { per_person: budget };
+          brief.budget = { per_person: budget, scope: 'all_in' };
           break;
         }
       }
@@ -73,7 +73,9 @@ export function mockExtractTripBrief(userMessage: string, existingBrief?: Partia
     const endDate = new Date(targetYear, monthIndex, 18);
     brief.dates = {
       start: startDate.toISOString().split('T')[0],
-      end: endDate.toISOString().split('T')[0]
+      end: endDate.toISOString().split('T')[0],
+      nights: 3,
+      flex_days: 0,
     };
   }
 
@@ -83,20 +85,20 @@ export function mockExtractTripBrief(userMessage: string, existingBrief?: Partia
     const fallMatch = message.match(/\b(fall|next fall|autumn)\b/);
     if (springMatch) {
       const year = new Date().getFullYear();
-      brief.dates = { start: `${year}-04-15`, end: `${year}-04-18` };
+      brief.dates = { start: `${year}-04-15`, end: `${year}-04-18`, nights: 3, flex_days: 0 };
     } else if (fallMatch) {
       const year = new Date().getFullYear();
-      brief.dates = { start: `${year}-10-15`, end: `${year}-10-18` };
+      brief.dates = { start: `${year}-10-15`, end: `${year}-10-18`, nights: 3, flex_days: 0 };
     }
   }
 
   // Extract preferences
   if (message.includes('bachelor')) {
-    brief.preferences = { vibe: 'casual', lodging: 'resort' };
+    brief.preferences = { vibe: 'casual', lodging: 'resort', travel_mode: 'fly', golf_density: '18_per_day', tee_time: 'mid_morning' };
   } else if (message.includes('luxury') || message.includes('high end') || message.includes('high-end')) {
-    brief.preferences = { vibe: 'mixed', lodging: 'resort' };
+    brief.preferences = { vibe: 'mixed', lodging: 'resort', travel_mode: 'fly', golf_density: '18_per_day', tee_time: 'mid_morning' };
   } else if (!brief.preferences) {
-    brief.preferences = { vibe: 'competitive_fun', lodging: 'resort' };
+    brief.preferences = { vibe: 'competitive_fun', lodging: 'resort', travel_mode: 'either', golf_density: '18_per_day', tee_time: 'mid_morning' };
   }
 
   // Determine what's truly missing (only the essentials: destination + dates + group size)
@@ -108,7 +110,7 @@ export function mockExtractTripBrief(userMessage: string, existingBrief?: Partia
 
   // Apply smart defaults for non-essential fields
   if (!brief.budget) {
-    brief.budget = { per_person: 1500 };
+    brief.budget = { per_person: 1500, scope: 'all_in' };
   }
 
   // Generate a caddy-voiced follow-up if fields are missing

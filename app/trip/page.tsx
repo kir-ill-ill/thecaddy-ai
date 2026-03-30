@@ -243,6 +243,7 @@ export default function TripPlannerPage() {
       const planOptions = data.data?.options || data.options || [];
       console.log('Options from response:', planOptions);
       setOptions(planOptions);
+      setState('S4_PRESENTATION');
 
       addMessage({
         role: 'assistant',
@@ -406,7 +407,7 @@ export default function TripPlannerPage() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder="Tell me about your golf trip..."
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest/50 focus:border-forest"
                 disabled={isLoading}

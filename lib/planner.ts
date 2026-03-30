@@ -102,7 +102,7 @@ function scoreDestination(
     const driveHours = estimateDriveHours(distance);
 
     if (tripBrief.preferences.travel_mode === 'drive') {
-      const maxHours = tripBrief.constraints.max_drive_hours || 4;
+      const maxHours = tripBrief.constraints?.max_drive_hours || 4;
       if (driveHours <= maxHours) {
         score += 30 * (1 - driveHours / maxHours); // Closer = more points
       } else if (driveHours <= maxHours * 1.5) {
@@ -125,7 +125,7 @@ function scoreDestination(
   const avgGreenFee = ((destination.avg_green_fee_low || 0) + (destination.avg_green_fee_high || 0)) / 2;
   const avgLodging = destination.avg_lodging_per_night || 150;
   const estimatedPerDay = avgGreenFee + avgLodging / 2 + 50; // Per person per day estimate
-  const estimatedTotal = estimatedPerDay * tripBrief.dates.nights;
+  const estimatedTotal = estimatedPerDay * (tripBrief.dates.nights || 3);
 
   if (estimatedTotal <= tripBrief.budget.per_person) {
     score += 25; // Within budget
@@ -150,12 +150,12 @@ function generateItinerary(
   courses: Course[],
   destination: Destination
 ): ItineraryDay[] {
-  const nights = tripBrief.dates.nights;
+  const nights = (tripBrief.dates.nights || 3);
   const itinerary: ItineraryDay[] = [];
   let courseIndex = 0;
 
   // Determine rounds per day based on golf_density
-  const density = tripBrief.preferences.golf_density;
+  const density = tripBrief.preferences.golf_density || '18_per_day';
   const roundsPerDay = density === '36_daily' ? 2 : 1;
   const allowDoubleDay = density === '36_one_day_ok' || density === '36_daily';
 
@@ -166,7 +166,7 @@ function generateItinerary(
     'noon': '11:00-16:00',
     'flex': '08:00-15:00',
   };
-  const teeWindow = teeTimeWindows[tripBrief.preferences.tee_time] || '09:00-14:00';
+  const teeWindow = teeTimeWindows[tripBrief.preferences.tee_time || 'mid_morning'] || '09:00-14:00';
 
   for (let day = 0; day <= nights; day++) {
     const dayLabel = day === 0 ? 'Arrival Day' : day === nights ? 'Departure Day' : `Day ${day}`;
@@ -185,7 +185,7 @@ function generateItinerary(
         time_window: '14:00-16:00',
       });
       // Maybe afternoon round if arriving early
-      if (courseIndex < courses.length && tripBrief.preferences.tee_time !== 'early') {
+      if (courseIndex < courses.length && (tripBrief.preferences.tee_time || 'mid_morning') !== 'early') {
         items.push({
           type: 'golf',
           label: `${courses[courseIndex].name} (18 holes)`,
@@ -267,7 +267,7 @@ function calculateCostEstimate(
   lodging: Lodging | null,
   destination: Destination
 ): CostEstimate {
-  const nights = tripBrief.dates.nights;
+  const nights = (tripBrief.dates.nights || 3);
   const players = tripBrief.party.players;
   const isWeekend = new Date(tripBrief.dates.start).getDay() >= 5;
 
@@ -339,7 +339,7 @@ function calculateScoreBreakdown(
       Number(destination.lat), Number(destination.lng)
     );
     const driveHours = estimateDriveHours(distance);
-    const maxHours = tripBrief.constraints.max_drive_hours || 4;
+    const maxHours = tripBrief.constraints?.max_drive_hours || 4;
 
     if (tripBrief.preferences.travel_mode === 'drive') {
       travelFit = driveHours <= maxHours ? 90 : driveHours <= maxHours * 1.5 ? 60 : 30;
@@ -389,7 +389,7 @@ function generateWhyItFits(
   const reasons: string[] = [];
 
   // Travel reason
-  if (tripBrief.preferences.travel_mode === 'drive' && driveHours <= (tripBrief.constraints.max_drive_hours || 4)) {
+  if (tripBrief.preferences.travel_mode === 'drive' && driveHours <= (tripBrief.constraints?.max_drive_hours || 4)) {
     reasons.push(`${Math.round(driveHours * 10) / 10} hour drive from ${tripBrief.origin.city}`);
   }
 
@@ -407,7 +407,7 @@ function generateWhyItFits(
   }
 
   // Rounds
-  reasons.push(`${courses.length} rounds over ${tripBrief.dates.nights} nights`);
+  reasons.push(`${courses.length} rounds over ${(tripBrief.dates.nights || 3)} nights`);
 
   // Vibe
   if (destination.vibe?.includes(tripBrief.preferences.vibe)) {
@@ -442,7 +442,7 @@ export async function generateTripOptions(tripBrief: TripBrief): Promise<TripOpt
   })).filter(d => {
     // Filter by drive hours if driving
     if (tripBrief.preferences.travel_mode === 'drive') {
-      const maxHours = (tripBrief.constraints.max_drive_hours || 4) * 1.5;
+      const maxHours = (tripBrief.constraints?.max_drive_hours || 4) * 1.5;
       return d.driveHours <= maxHours;
     }
     return true;
@@ -462,7 +462,7 @@ export async function generateTripOptions(tripBrief: TripBrief): Promise<TripOpt
     const lodgingOptions = await getLodgingByDestination(destination.id);
 
     // Select courses for the trip (based on nights and density)
-    const roundsNeeded = tripBrief.dates.nights + (tripBrief.preferences.golf_density.includes('36') ? 1 : 0);
+    const roundsNeeded = (tripBrief.dates.nights || 3) + ((tripBrief.preferences.golf_density || '18_per_day').includes('36') ? 1 : 0);
     const selectedCourses = courses.slice(0, Math.min(roundsNeeded, courses.length));
 
     // Select best matching lodging
@@ -486,7 +486,7 @@ export async function generateTripOptions(tripBrief: TripBrief): Promise<TripOpt
     const lodgingPick: LodgingPick = {
       type: (selectedLodging?.lodging_type as any) || 'hotel',
       name_or_area: selectedLodging?.name || destination.name,
-      nights: tripBrief.dates.nights,
+      nights: (tripBrief.dates.nights || 3),
       notes: selectedLodging?.description || undefined,
     };
 
@@ -530,7 +530,7 @@ export async function generateTripOptions(tripBrief: TripBrief): Promise<TripOpt
   }
 
   // Sort by total score
-  options.sort((a, b) => b.score_breakdown.total - a.score_breakdown.total);
+  options.sort((a, b) => (b.score_breakdown?.total || 0) - (a.score_breakdown?.total || 0));
 
   return options;
 }

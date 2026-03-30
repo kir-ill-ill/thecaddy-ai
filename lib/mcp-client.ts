@@ -14,7 +14,7 @@ export async function getMCPClient(): Promise<Client> {
     args: [process.cwd() + '/mcp-server/dist/index.js'],
     env: {
       ...process.env,
-    },
+    } as Record<string, string>,
   });
 
   // Create client
@@ -42,10 +42,11 @@ export async function callMCPTool(toolName: string, args: any): Promise<any> {
   });
 
   // Extract text content from result
-  const textContent = result.content.find((c) => c.type === 'text');
+  const content = result.content as Array<{ type: string; text?: string }>;
+  const textContent = content.find((c: { type: string }) => c.type === 'text');
   if (!textContent || textContent.type !== 'text') {
     throw new Error('No text content in MCP response');
   }
 
-  return JSON.parse(textContent.text);
+  return JSON.parse(textContent.text!);
 }

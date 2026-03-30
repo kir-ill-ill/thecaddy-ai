@@ -9,13 +9,17 @@ export type BudgetScope = 'all_in' | 'golf_only' | 'unknown';
 export type SkillMix = 'unknown' | 'beginner_heavy' | 'mixed' | 'experienced_heavy';
 export type Confidence = 'low' | 'medium' | 'high';
 export type CourseRole = 'anchor' | 'value' | 'vibes' | 'backup' | 'tbd';
-export type ItineraryType = 'travel' | 'golf' | 'meal' | 'nightlife' | 'rest' | 'other';
+export type ItineraryType = 'travel' | 'golf' | 'meal' | 'food' | 'activity' | 'nightlife' | 'rest' | 'other';
 export type RiskLevel = 'low' | 'medium' | 'high';
 
 // TripBrief - Normalized planning input
 export interface TripBrief {
   schema_version: '1.0';
   trip_name?: string;
+  destination?: {
+    city: string;
+    state: string;
+  };
   origin: {
     city: string;
     state: string;
@@ -28,27 +32,27 @@ export interface TripBrief {
   dates: {
     start: string; // YYYY-MM-DD
     end: string; // YYYY-MM-DD
-    nights: number;
-    flex_days: number;
+    nights?: number;
+    flex_days?: number;
   };
   budget: {
     per_person: number;
-    scope: BudgetScope;
+    scope?: BudgetScope;
     currency?: string;
   };
   preferences: {
     vibe: Vibe;
-    travel_mode: TravelMode;
+    travel_mode?: TravelMode;
     lodging: LodgingType;
-    golf_density: GolfDensity;
-    tee_time: TeeTime;
+    golf_density?: GolfDensity;
+    tee_time?: TeeTime;
   };
-  constraints: {
-    avoid: string[];
-    must_have: string[];
+  constraints?: {
+    avoid?: string[];
+    must_have?: string[];
     max_drive_hours?: number;
   };
-  assumptions: string[];
+  assumptions?: string[];
 }
 
 // Extractor Request/Response
@@ -101,8 +105,11 @@ export interface LodgingCandidate {
 // Trip Options
 export interface CoursePick {
   name: string;
-  role: CourseRole;
-  holes: 9 | 18 | 27 | 36;
+  role?: CourseRole;
+  holes?: 9 | 18 | 27 | 36;
+  difficulty?: string;
+  price_range?: string;
+  features?: string[];
   notes?: string;
 }
 
@@ -121,20 +128,21 @@ export interface ItineraryItem {
 }
 
 export interface ItineraryDay {
-  day_label: string;
+  day_label?: string;
+  day?: string;
   items: ItineraryItem[];
 }
 
 export interface CostEstimate {
-  per_person_target: number;
+  per_person_target?: number;
   per_person_estimated: number;
-  confidence: Confidence;
-  breakdown: {
+  confidence?: Confidence;
+  breakdown?: {
     lodging: number;
     golf: number;
     food: number;
-    local_transport: number;
-    misc: number;
+    local_transport?: number;
+    misc?: number;
   };
   assumptions?: string[];
 }
@@ -151,14 +159,14 @@ export interface ScoreBreakdown {
 export interface TripOption {
   id: string; // opt_*
   title: string;
-  tagline: string;
+  tagline?: string;
   destination: string;
-  need_research: boolean;
+  need_research?: boolean;
   courses: CoursePick[];
   lodging: LodgingPick;
-  itinerary: ItineraryDay[];
+  itinerary?: ItineraryDay[];
   cost_estimate: CostEstimate;
-  score_breakdown: ScoreBreakdown;
+  score_breakdown?: ScoreBreakdown;
   why_it_fits: string[];
 }
 
