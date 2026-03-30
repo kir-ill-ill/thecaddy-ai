@@ -77,6 +77,12 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
   ]);
   const [isSending, setIsSending] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   // Fetch fund data
   useEffect(() => {
@@ -146,7 +152,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
     );
 
     if (validRequests.length === 0) {
-      alert('Please add at least one valid request');
+      showToast('Please add at least one valid request', 'error');
       return;
     }
 
@@ -174,8 +180,9 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
       await fetchFundData();
       setShowAddModal(false);
       setNewRequests([{ email: '', name: '', amount: '' }]);
+      showToast('Payment requests sent successfully!');
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to send requests');
+      showToast(err instanceof Error ? err.message : 'Failed to send requests', 'error');
     } finally {
       setIsSending(false);
     }
@@ -197,9 +204,9 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-sand/30 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto mb-4" />
+          <Loader2 className="w-8 h-8 animate-spin text-forest mx-auto mb-4" />
           <p className="text-gray-600">Loading fund data...</p>
         </div>
       </div>
@@ -208,14 +215,14 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
 
   if (error || !summary) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-sand/30 flex items-center justify-center">
         <div className="text-center max-w-md">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-900 mb-2">Unable to Load Fund</h2>
           <p className="text-gray-600 mb-4">{error || 'Fund data not available'}</p>
           <a
             href={`/trip/${tripId}/fund`}
-            className="inline-block px-6 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700"
+            className="inline-block px-6 py-3 bg-forest text-white rounded-lg font-medium hover:bg-forest/90"
           >
             Create a Fund
           </a>
@@ -225,20 +232,29 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-sand/30">
+      {/* Toast notification */}
+      {toast && (
+        <div className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg text-sm font-medium animate-fade-in ${
+          toast.type === 'success' ? 'bg-forest text-white' : 'bg-red-600 text-white'
+        }`}>
+          {toast.message}
+        </div>
+      )}
+
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
+      <header className="bg-forest text-white px-6 py-4">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <span className="text-2xl">💰</span>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">{summary.fund.name}</h1>
-              <p className="text-sm text-gray-500">Captain Dashboard</p>
+              <h1 className="text-xl font-bold font-serif">{summary.fund.name}</h1>
+              <p className="text-sm text-sand/70">Captain Dashboard</p>
             </div>
           </div>
           <button
             onClick={fetchFundData}
-            className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition"
+            className="p-2 text-white/70 hover:bg-white/10 rounded-lg transition"
           >
             <RefreshCw className="w-5 h-5" />
           </button>
@@ -248,10 +264,10 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
       <main className="max-w-5xl mx-auto px-6 py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
+          <div className="bg-white rounded-xl p-6 border border-forest/10">
             <div className="flex items-center gap-3 mb-2">
-              <div className="bg-emerald-100 p-2 rounded-lg">
-                <DollarSign className="w-5 h-5 text-emerald-600" />
+              <div className="bg-forest/10 p-2 rounded-lg">
+                <DollarSign className="w-5 h-5 text-forest" />
               </div>
               <span className="text-sm text-gray-500">Collected</span>
             </div>
@@ -260,10 +276,10 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
+          <div className="bg-white rounded-xl p-6 border border-forest/10">
             <div className="flex items-center gap-3 mb-2">
-              <div className="bg-amber-100 p-2 rounded-lg">
-                <Clock className="w-5 h-5 text-amber-600" />
+              <div className="bg-gold/10 p-2 rounded-lg">
+                <Clock className="w-5 h-5 text-gold" />
               </div>
               <span className="text-sm text-gray-500">Pending</span>
             </div>
@@ -272,7 +288,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
+          <div className="bg-white rounded-xl p-6 border border-forest/10">
             <div className="flex items-center gap-3 mb-2">
               <div className="bg-blue-100 p-2 rounded-lg">
                 <Users className="w-5 h-5 text-blue-600" />
@@ -282,7 +298,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
             <p className="text-2xl font-bold text-gray-900">{summary.stats.payment_count}</p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
+          <div className="bg-white rounded-xl p-6 border border-forest/10">
             <div className="flex items-center gap-3 mb-2">
               <div className="bg-purple-100 p-2 rounded-lg">
                 <Send className="w-5 h-5 text-purple-600" />
@@ -297,7 +313,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
 
         {/* Progress Bar */}
         {summary.stats.target_amount && (
-          <div className="bg-white rounded-xl p-6 border border-gray-200 mb-8">
+          <div className="bg-white rounded-xl p-6 border border-forest/10 mb-8">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium text-gray-700">Progress to Goal</span>
               <span className="text-sm text-gray-500">
@@ -307,7 +323,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
             </div>
             <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-600 rounded-full transition-all"
+                className="h-full bg-gold rounded-full transition-all"
                 style={{ width: `${summary.stats.progress_percent || 0}%` }}
               />
             </div>
@@ -321,7 +337,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
         <div className="flex justify-end mb-6">
           <button
             onClick={() => setShowAddModal(true)}
-            className="px-6 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition flex items-center gap-2"
+            className="px-6 py-3 bg-gold text-forest rounded-lg font-medium hover:bg-gold/90 transition flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Send Payment Requests
@@ -329,9 +345,9 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
         </div>
 
         {/* Payment Requests List */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-bold text-gray-900">Payment Requests</h2>
+        <div className="bg-white rounded-xl border border-forest/10 overflow-hidden">
+          <div className="px-6 py-4 border-b border-forest/10">
+            <h2 className="text-lg font-bold text-gray-900 font-serif">Payment Requests</h2>
           </div>
 
           {summary.requests.length === 0 ? (
@@ -340,7 +356,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
               <p className="text-gray-500">No payment requests yet.</p>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="mt-4 text-emerald-600 font-medium hover:underline"
+                className="mt-4 text-forest font-medium hover:underline"
               >
                 Send your first request
               </button>
@@ -350,20 +366,20 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
               {summary.requests.map((request) => (
                 <div
                   key={request.id}
-                  className="px-6 py-4 flex items-center justify-between hover:bg-gray-50"
+                  className="px-6 py-4 flex items-center justify-between hover:bg-sand/20"
                 >
                   <div className="flex items-center gap-4">
                     <div
                       className={`w-10 h-10 rounded-full flex items-center justify-center ${
                         request.status === 'paid'
-                          ? 'bg-emerald-100'
-                          : 'bg-amber-100'
+                          ? 'bg-forest/10'
+                          : 'bg-gold/10'
                       }`}
                     >
                       {request.status === 'paid' ? (
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                        <CheckCircle2 className="w-5 h-5 text-forest" />
                       ) : (
-                        <Clock className="w-5 h-5 text-amber-600" />
+                        <Clock className="w-5 h-5 text-gold" />
                       )}
                     </div>
                     <div>
@@ -383,7 +399,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
                       </p>
                       <p
                         className={`text-xs font-medium ${
-                          request.status === 'paid' ? 'text-emerald-600' : 'text-amber-600'
+                          request.status === 'paid' ? 'text-forest' : 'text-gold'
                         }`}
                       >
                         {request.status === 'paid' ? 'Paid' : 'Pending'}
@@ -397,7 +413,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
                         title="Copy payment link"
                       >
                         {copied === request.request_code ? (
-                          <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                          <CheckCircle2 className="w-5 h-5 text-forest" />
                         ) : (
                           <Copy className="w-5 h-5" />
                         )}
@@ -415,8 +431,8 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-xl font-bold text-gray-900">Send Payment Requests</h2>
+            <div className="p-6 border-b border-forest/10 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-900 font-serif">Send Payment Requests</h2>
               <button
                 onClick={() => setShowAddModal(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition"
@@ -429,7 +445,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
               {newRequests.map((request, index) => (
                 <div
                   key={index}
-                  className="bg-gray-50 rounded-lg p-4 relative"
+                  className="bg-sand/30 rounded-lg p-4 relative"
                 >
                   {newRequests.length > 1 && (
                     <button
@@ -448,7 +464,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
                       onChange={(e) =>
                         handleRequestChange(index, 'email', e.target.value)
                       }
-                      className="col-span-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      className="col-span-2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                     />
                     <input
                       type="text"
@@ -457,7 +473,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
                       onChange={(e) =>
                         handleRequestChange(index, 'name', e.target.value)
                       }
-                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                     />
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -472,7 +488,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
                         onChange={(e) =>
                           handleRequestChange(index, 'amount', e.target.value)
                         }
-                        className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                       />
                     </div>
                   </div>
@@ -481,14 +497,14 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
 
               <button
                 onClick={handleAddRequest}
-                className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-emerald-500 hover:text-emerald-600 transition flex items-center justify-center gap-2"
+                className="w-full py-3 border-2 border-dashed border-forest/20 rounded-lg text-gray-500 hover:border-gold hover:text-gold transition flex items-center justify-center gap-2"
               >
                 <Plus className="w-5 h-5" />
                 Add Another Person
               </button>
             </div>
 
-            <div className="p-6 border-t border-gray-200 flex gap-4">
+            <div className="p-6 border-t border-forest/10 flex gap-4">
               <button
                 onClick={() => setShowAddModal(false)}
                 className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition"
@@ -498,7 +514,7 @@ export default function FundManagePage({ params }: { params: Promise<{ id: strin
               <button
                 onClick={handleSendRequests}
                 disabled={isSending}
-                className="flex-1 px-6 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-gold text-forest rounded-lg font-medium hover:bg-gold/90 transition disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isSending ? (
                   <>

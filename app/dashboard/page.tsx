@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -41,7 +41,7 @@ const statusConfig: Record<string, { label: string; color: string; icon: React.E
   draft: { label: 'Draft', color: 'bg-gray-100 text-gray-700', icon: Clock },
   options_ready: { label: 'Options Ready', color: 'bg-blue-100 text-blue-700', icon: Flag },
   voting: { label: 'Voting', color: 'bg-purple-100 text-purple-700', icon: Vote },
-  locked: { label: 'Confirmed', color: 'bg-emerald-100 text-emerald-700', icon: CheckCircle },
+  locked: { label: 'Confirmed', color: 'bg-forest/10 text-forest', icon: CheckCircle },
 };
 
 export default function DashboardPage() {
@@ -49,6 +49,8 @@ export default function DashboardPage() {
   const router = useRouter();
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -61,6 +63,19 @@ export default function DashboardPage() {
       fetchTrips();
     }
   }, [session]);
+
+  // Click-outside handler for dropdown
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [menuOpen]);
 
   const fetchTrips = async () => {
     try {
@@ -86,8 +101,8 @@ export default function DashboardPage() {
 
   if (status === 'loading' || (status === 'authenticated' && loading)) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
+      <div className="min-h-screen bg-sand/30 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-forest animate-spin" />
       </div>
     );
   }
@@ -97,29 +112,32 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-sand/30">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-forest text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-xl font-bold">
-                <span className="text-emerald-600">The</span>Caddy
-                <span className="text-emerald-600">.AI</span>
+              <span className="text-xl font-bold font-serif">
+                <span className="text-gold">The</span>Caddy
+                <span className="text-gold">.AI</span>
               </span>
             </Link>
 
             <div className="flex items-center gap-4">
               <Link
                 href="/trip"
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+                className="flex items-center gap-2 px-4 py-2 bg-gold text-forest rounded-lg hover:bg-gold/90 transition font-medium"
               >
                 <Plus className="w-5 h-5" />
                 <span className="hidden sm:inline">New Trip</span>
               </Link>
 
-              <div className="relative group">
-                <button className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition">
+              <div className="relative" ref={menuRef}>
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/10 transition"
+                >
                   {session.user.image ? (
                     <img
                       src={session.user.image}
@@ -127,37 +145,40 @@ export default function DashboardPage() {
                       className="w-8 h-8 rounded-full"
                     />
                   ) : (
-                    <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
-                      <User className="w-5 h-5 text-emerald-600" />
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                      <User className="w-5 h-5 text-white" />
                     </div>
                   )}
                 </button>
 
-                {/* Dropdown */}
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                  <div className="p-3 border-b border-gray-200">
-                    <p className="font-medium text-gray-900 truncate">
-                      {session.user.name || 'User'}
-                    </p>
-                    <p className="text-sm text-gray-500 truncate">{session.user.email}</p>
+                {/* Dropdown - click triggered */}
+                {menuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-forest/10 z-50">
+                    <div className="p-3 border-b border-gray-200">
+                      <p className="font-medium text-gray-900 truncate">
+                        {session.user.name || 'User'}
+                      </p>
+                      <p className="text-sm text-gray-500 truncate">{session.user.email}</p>
+                    </div>
+                    <div className="p-2">
+                      <Link
+                        href="/profile"
+                        className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        <Settings className="w-4 h-4" />
+                        Profile Settings
+                      </Link>
+                      <button
+                        onClick={() => signOut({ callbackUrl: '/' })}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </div>
                   </div>
-                  <div className="p-2">
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
-                    >
-                      <Settings className="w-4 h-4" />
-                      Profile Settings
-                    </Link>
-                    <button
-                      onClick={() => signOut({ callbackUrl: '/' })}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -168,7 +189,7 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900 font-serif">
             Welcome back, {session.user.name?.split(' ')[0] || 'Golfer'}!
           </h1>
           <p className="text-gray-600 mt-1">
@@ -178,25 +199,25 @@ export default function DashboardPage() {
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-forest/10">
             <p className="text-sm text-gray-500">Total Trips</p>
             <p className="text-2xl font-bold text-gray-900">{trips.length}</p>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-forest/10">
             <p className="text-sm text-gray-500">Active</p>
-            <p className="text-2xl font-bold text-emerald-600">
+            <p className="text-2xl font-bold text-forest">
               {trips.filter((t) => t.status !== 'draft').length}
             </p>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-forest/10">
             <p className="text-sm text-gray-500">Voting</p>
             <p className="text-2xl font-bold text-purple-600">
               {trips.filter((t) => t.status === 'voting').length}
             </p>
           </div>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <div className="bg-white rounded-xl p-4 border border-forest/10">
             <p className="text-sm text-gray-500">Confirmed</p>
-            <p className="text-2xl font-bold text-blue-600">
+            <p className="text-2xl font-bold text-gold">
               {trips.filter((t) => t.status === 'locked').length}
             </p>
           </div>
@@ -204,21 +225,21 @@ export default function DashboardPage() {
 
         {/* Trips Grid */}
         <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Your Trips</h2>
+          <h2 className="text-lg font-semibold text-gray-900 font-serif">Your Trips</h2>
         </div>
 
         {trips.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center">
-            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Flag className="w-8 h-8 text-emerald-600" />
+          <div className="bg-white rounded-2xl border border-forest/10 p-12 text-center">
+            <div className="w-16 h-16 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Flag className="w-8 h-8 text-forest" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No trips yet</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No trips on the card yet</h3>
             <p className="text-gray-600 mb-6">
-              Start planning your first golf trip with AI assistance
+              Ready to plan your first? Tell The Caddy what you want.
             </p>
             <Link
               href="/trip"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-forest rounded-lg font-medium hover:bg-gold/90 transition"
             >
               <Plus className="w-5 h-5" />
               Plan Your First Trip
@@ -234,7 +255,7 @@ export default function DashboardPage() {
                 <Link
                   key={trip.id}
                   href={`/trip/${trip.id}`}
-                  className="bg-white rounded-2xl border border-gray-200 hover:border-emerald-300 hover:shadow-lg transition-all group"
+                  className="bg-white rounded-2xl border border-forest/10 hover:border-forest/30 hover:shadow-lg transition-all group"
                 >
                   <div className="p-6">
                     {/* Status Badge */}
@@ -251,7 +272,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Trip Name */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-emerald-600 transition">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-forest transition">
                       {trip.trip_name}
                     </h3>
 
@@ -284,7 +305,7 @@ export default function DashboardPage() {
                       <span className="text-xs text-gray-400">
                         {trip.nights} nights
                       </span>
-                      <span className="text-emerald-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span className="text-forest text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                         View Details
                         <ChevronRight className="w-4 h-4" />
                       </span>
@@ -297,13 +318,13 @@ export default function DashboardPage() {
             {/* Add New Trip Card */}
             <Link
               href="/trip"
-              className="bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300 hover:border-emerald-400 hover:bg-emerald-50 transition-all flex items-center justify-center min-h-[280px] group"
+              className="bg-sand/30 rounded-2xl border-2 border-dashed border-forest/20 hover:border-gold hover:bg-sand/50 transition-all flex items-center justify-center min-h-[280px] group"
             >
               <div className="text-center">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm group-hover:bg-emerald-100 transition">
-                  <Plus className="w-6 h-6 text-gray-400 group-hover:text-emerald-600 transition" />
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm group-hover:bg-gold/10 transition">
+                  <Plus className="w-6 h-6 text-gray-400 group-hover:text-gold transition" />
                 </div>
-                <p className="font-medium text-gray-600 group-hover:text-emerald-600 transition">
+                <p className="font-medium text-gray-600 group-hover:text-forest transition">
                   Plan New Trip
                 </p>
               </div>

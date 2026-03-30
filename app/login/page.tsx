@@ -20,12 +20,14 @@ function LoginContent() {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
   const [magicLink, setMagicLink] = useState('');
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
+    setIsError(false);
 
     try {
       if (mode === 'signup') {
@@ -39,6 +41,7 @@ function LoginContent() {
         const data = await res.json();
         if (!res.ok) {
           setMessage(data.error || 'Failed to create account');
+          setIsError(true);
           setLoading(false);
           return;
         }
@@ -53,11 +56,13 @@ function LoginContent() {
 
       if (result?.error) {
         setMessage('Invalid email or password');
+        setIsError(true);
       } else {
         router.push(callbackUrl);
       }
     } catch {
       setMessage('An error occurred. Please try again.');
+      setIsError(true);
     }
 
     setLoading(false);
@@ -67,6 +72,7 @@ function LoginContent() {
     e.preventDefault();
     setLoading(true);
     setMessage('');
+    setIsError(false);
     setMagicLink('');
 
     try {
@@ -79,15 +85,18 @@ function LoginContent() {
       const data = await res.json();
       if (res.ok) {
         setMessage('Check your email for the login link!');
-        // In dev mode, show the magic link
-        if (data.magicLink) {
+        setIsError(false);
+        // Only show magic link in development
+        if (data.magicLink && process.env.NODE_ENV === 'development') {
           setMagicLink(data.magicLink);
         }
       } else {
         setMessage(data.error || 'Failed to send magic link');
+        setIsError(true);
       }
     } catch {
       setMessage('An error occurred. Please try again.');
+      setIsError(true);
     }
 
     setLoading(false);
@@ -102,12 +111,12 @@ function LoginContent() {
       {/* Logo */}
       <div className="text-center mb-8">
         <Link href="/" className="inline-block">
-          <h1 className="text-3xl font-bold text-white">
-            <span className="text-emerald-400">The</span>Caddy
-            <span className="text-emerald-400">.AI</span>
+          <h1 className="text-3xl font-bold text-white font-serif">
+            <span className="text-gold">The</span>Caddy
+            <span className="text-gold">.AI</span>
           </h1>
         </Link>
-        <p className="text-emerald-200/70 mt-2">Plan legendary golf trips</p>
+        <p className="text-sand/70 mt-2">Plan legendary golf trips</p>
       </div>
 
       {/* Auth Card */}
@@ -118,7 +127,7 @@ function LoginContent() {
             onClick={() => setMode('login')}
             className={`flex-1 pb-3 text-sm font-medium transition ${
               mode === 'login'
-                ? 'text-emerald-600 border-b-2 border-emerald-600'
+                ? 'text-forest border-b-2 border-forest'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -128,7 +137,7 @@ function LoginContent() {
             onClick={() => setMode('signup')}
             className={`flex-1 pb-3 text-sm font-medium transition ${
               mode === 'signup'
-                ? 'text-emerald-600 border-b-2 border-emerald-600'
+                ? 'text-forest border-b-2 border-forest'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -138,7 +147,7 @@ function LoginContent() {
             onClick={() => setMode('magic')}
             className={`flex-1 pb-3 text-sm font-medium transition ${
               mode === 'magic'
-                ? 'text-emerald-600 border-b-2 border-emerald-600'
+                ? 'text-forest border-b-2 border-forest'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -207,7 +216,7 @@ function LoginContent() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                   />
                 </div>
               </div>
@@ -225,7 +234,7 @@ function LoginContent() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                 />
               </div>
             </div>
@@ -243,13 +252,13 @@ function LoginContent() {
                   placeholder={mode === 'signup' ? 'Min 8 characters' : 'Your password'}
                   required
                   minLength={mode === 'signup' ? 8 : undefined}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                 />
               </div>
             </div>
 
             {message && (
-              <p className={`text-sm ${message.includes('error') || message.includes('Invalid') ? 'text-red-600' : 'text-emerald-600'}`}>
+              <p className={`text-sm ${isError ? 'text-red-600' : 'text-forest'}`}>
                 {message}
               </p>
             )}
@@ -257,7 +266,7 @@ function LoginContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-forest text-white rounded-lg font-medium hover:bg-forest/90 transition disabled:opacity-50"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -286,24 +295,24 @@ function LoginContent() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                 />
               </div>
             </div>
 
             {message && (
-              <p className={`text-sm ${message.includes('error') ? 'text-red-600' : 'text-emerald-600'}`}>
+              <p className={`text-sm ${isError ? 'text-red-600' : 'text-forest'}`}>
                 {message}
               </p>
             )}
 
-            {/* Dev mode: show magic link */}
-            {magicLink && (
+            {/* Dev mode: show magic link only in development */}
+            {magicLink && process.env.NODE_ENV === 'development' && (
               <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <p className="text-xs text-yellow-700 mb-2">Dev Mode - Magic Link:</p>
                 <a
                   href={magicLink}
-                  className="text-xs text-emerald-600 hover:underline break-all"
+                  className="text-xs text-forest hover:underline break-all"
                 >
                   {magicLink}
                 </a>
@@ -313,7 +322,7 @@ function LoginContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-forest text-white rounded-lg font-medium hover:bg-forest/90 transition disabled:opacity-50"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -336,7 +345,7 @@ function LoginContent() {
       <div className="text-center mt-6">
         <Link
           href="/"
-          className="text-emerald-200/70 hover:text-emerald-200 text-sm"
+          className="text-sand/70 hover:text-sand text-sm"
         >
           ← Back to home
         </Link>
@@ -347,12 +356,12 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-900 to-emerald-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-forest to-forest/90 flex items-center justify-center p-4">
       <Suspense
         fallback={
           <div className="w-full max-w-md text-center">
-            <Loader2 className="w-8 h-8 text-emerald-400 animate-spin mx-auto mb-4" />
-            <p className="text-emerald-200/70">Loading...</p>
+            <Loader2 className="w-8 h-8 text-gold animate-spin mx-auto mb-4" />
+            <p className="text-sand/70">Loading...</p>
           </div>
         }
       >

@@ -134,7 +134,7 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
       {isActive && swipeDirection && (
         <div className="absolute inset-4 pointer-events-none z-30">
           {swipeDirection === 'right' && (
-            <div className="absolute top-4 left-4 px-4 py-2 bg-green-500 text-white font-bold text-2xl rounded-lg transform -rotate-12 border-4 border-green-600">
+            <div className="absolute top-4 left-4 px-4 py-2 bg-forest text-white font-bold text-2xl rounded-lg transform -rotate-12 border-4 border-forest/80">
               YES!
             </div>
           )}
@@ -147,16 +147,16 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
       )}
 
       {/* Card content */}
-      <div className="h-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col cursor-grab active:cursor-grabbing border-2 border-gray-100">
+      <div className="h-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col cursor-grab active:cursor-grabbing border-2 border-forest/10">
         {/* Header with gradient */}
-        <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 text-white p-6 relative">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+        <div className="bg-gradient-to-br from-forest to-forest/80 text-white p-6 relative">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full -translate-y-16 translate-x-16"></div>
           <div className="relative">
-            <h2 className="text-2xl font-bold mb-1">{option.title}</h2>
+            <h2 className="text-2xl font-bold mb-1 font-serif">{option.title}</h2>
             {option.tagline && (
-              <p className="text-emerald-100 text-sm">{option.tagline}</p>
+              <p className="text-sand/80 text-sm">{option.tagline}</p>
             )}
-            <div className="flex items-center gap-2 mt-3 text-emerald-100">
+            <div className="flex items-center gap-2 mt-3 text-sand/80">
               <MapPin className="w-4 h-4" />
               <span>{option.destination}</span>
             </div>
@@ -165,8 +165,8 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
 
         {/* Price badge */}
         <div className="px-6 -mt-4 relative z-10">
-          <div className="inline-flex items-center gap-1 bg-white px-4 py-2 rounded-full shadow-lg border-2 border-emerald-100">
-            <DollarSign className="w-5 h-5 text-emerald-600" />
+          <div className="inline-flex items-center gap-1 bg-white px-4 py-2 rounded-full shadow-lg border-2 border-gold/30">
+            <DollarSign className="w-5 h-5 text-gold" />
             <span className="text-2xl font-bold text-gray-900">
               {option.cost_estimate.per_person_estimated}
             </span>
@@ -185,7 +185,7 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
               {option.courses.slice(0, 4).map((course, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
+                  className="flex items-center justify-between bg-sand/30 p-3 rounded-lg"
                 >
                   <span className="font-medium text-gray-800">{course.name}</span>
                   {course.holes && (
@@ -208,7 +208,7 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
               {option.why_it_fits.slice(0, 4).map((reason, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium"
+                  className="px-3 py-1.5 bg-forest/10 text-forest rounded-full text-sm font-medium"
                 >
                   {reason}
                 </span>
@@ -229,9 +229,9 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
               </button>
               <button
                 onClick={() => handleButtonSwipe('right')}
-                className="w-16 h-16 rounded-full bg-green-100 hover:bg-green-200 flex items-center justify-center transition shadow-lg active:scale-95"
+                className="w-16 h-16 rounded-full bg-forest/10 hover:bg-forest/20 flex items-center justify-center transition shadow-lg active:scale-95"
               >
-                <Heart className="w-8 h-8 text-green-500" />
+                <Heart className="w-8 h-8 text-forest" />
               </button>
             </div>
             <p className="text-center text-gray-500 text-sm mt-3">
@@ -277,18 +277,18 @@ export function SwipeStack({ options, onComplete }: SwipeStackProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Progress bar */}
-      <div className="px-4 py-3 bg-white border-b border-gray-200">
+      <div className="px-4 py-3 bg-white border-b border-forest/10">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm text-gray-600">
             {currentIndex + 1} of {options.length}
           </span>
-          <span className="text-sm font-medium text-emerald-600">
+          <span className="text-sm font-medium text-forest">
             {yesVotes} selected
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
+            className="bg-gold h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -312,10 +312,10 @@ export function SwipeStack({ options, onComplete }: SwipeStackProps) {
         {currentIndex >= options.length && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-10 h-10 text-emerald-600" />
+              <div className="w-20 h-20 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-10 h-10 text-forest" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">All Done!</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 font-serif">All Done!</h3>
               <p className="text-gray-600">
                 You voted YES on {yesVotes} option{yesVotes !== 1 ? 's' : ''}
               </p>
@@ -326,7 +326,7 @@ export function SwipeStack({ options, onComplete }: SwipeStackProps) {
 
       {/* Navigation hint */}
       {currentIndex < options.length && (
-        <div className="p-4 bg-gray-50 border-t border-gray-200">
+        <div className="p-4 bg-sand/30 border-t border-forest/10">
           <div className="flex justify-between items-center text-sm text-gray-500">
             <div className="flex items-center gap-2">
               <ChevronLeft className="w-4 h-4" />

@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="font-sans antialiased text-gray-900">
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -61,8 +61,8 @@ export default function ProfilePage() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
+      <div className="min-h-screen bg-sand/30 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-forest animate-spin" />
       </div>
     );
   }
@@ -72,14 +72,14 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-sand/30">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-forest text-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
             <Link
               href="/dashboard"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition"
+              className="flex items-center gap-2 text-sand/80 hover:text-white transition"
             >
               <ArrowLeft className="w-5 h-5" />
               <span>Back to Dashboard</span>
@@ -90,12 +90,12 @@ export default function ProfilePage() {
 
       {/* Main Content */}
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-8">Profile Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-8 font-serif">Profile Settings</h1>
 
         <div className="space-y-6">
           {/* Profile Card */}
-          <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-            <div className="p-6 border-b border-gray-200">
+          <div className="bg-white rounded-2xl border border-forest/10 overflow-hidden">
+            <div className="p-6 border-b border-forest/10">
               <h2 className="text-lg font-semibold text-gray-900">Your Profile</h2>
               <p className="text-sm text-gray-500 mt-1">
                 Manage your account information
@@ -113,13 +113,13 @@ export default function ProfilePage() {
                       className="w-20 h-20 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center">
-                      <User className="w-10 h-10 text-emerald-600" />
+                    <div className="w-20 h-20 bg-forest/10 rounded-full flex items-center justify-center">
+                      <User className="w-10 h-10 text-forest" />
                     </div>
                   )}
                   <button
                     type="button"
-                    className="absolute bottom-0 right-0 w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition"
+                    className="absolute bottom-0 right-0 w-8 h-8 bg-white border border-forest/10 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition"
                   >
                     <Camera className="w-4 h-4 text-gray-600" />
                   </button>
@@ -142,7 +142,7 @@ export default function ProfilePage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest/50 focus:border-forest"
                   />
                 </div>
               </div>
@@ -171,7 +171,7 @@ export default function ProfilePage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-3 bg-forest text-white rounded-lg font-medium hover:bg-forest/90 transition disabled:opacity-50"
                 >
                   {saving ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -187,8 +187,8 @@ export default function ProfilePage() {
           </div>
 
           {/* Connected Accounts */}
-          <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-            <div className="p-6 border-b border-gray-200">
+          <div className="bg-white rounded-2xl border border-forest/10 overflow-hidden">
+            <div className="p-6 border-b border-forest/10">
               <h2 className="text-lg font-semibold text-gray-900">Connected Accounts</h2>
               <p className="text-sm text-gray-500 mt-1">
                 Manage your login methods
@@ -197,7 +197,7 @@ export default function ProfilePage() {
 
             <div className="p-6 space-y-4">
               {/* Google */}
-              <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center justify-between p-4 border border-forest/10 rounded-lg">
                 <div className="flex items-center gap-3">
                   <svg className="w-6 h-6" viewBox="0 0 24 24">
                     <path
@@ -222,11 +222,11 @@ export default function ProfilePage() {
                     <p className="text-sm text-gray-500">Sign in with Google</p>
                   </div>
                 </div>
-                <span className="text-sm text-emerald-600 font-medium">Connected</span>
+                <span className="text-sm text-forest font-medium">Connected</span>
               </div>
 
               {/* Password */}
-              <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center justify-between p-4 border border-forest/10 rounded-lg">
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 flex items-center justify-center">
                     <Shield className="w-5 h-5 text-gray-600" />
@@ -236,7 +236,7 @@ export default function ProfilePage() {
                     <p className="text-sm text-gray-500">Sign in with email & password</p>
                   </div>
                 </div>
-                <button className="text-sm text-emerald-600 font-medium hover:underline">
+                <button className="text-sm text-forest font-medium hover:underline">
                   Set Password
                 </button>
               </div>

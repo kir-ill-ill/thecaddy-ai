@@ -31,7 +31,7 @@ export default function PaymentSuccessPage({
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto mb-4" />
+          <Loader2 className="w-8 h-8 animate-spin text-forest mx-auto mb-4" />
           <p className="text-gray-600">Confirming your payment...</p>
         </div>
       </div>
@@ -39,12 +39,12 @@ export default function PaymentSuccessPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-b from-sand/50 to-white flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
         {/* Success Animation */}
         <div className="relative mb-8">
-          <div className="bg-emerald-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto animate-bounce">
-            <CheckCircle2 className="w-14 h-14 text-emerald-600" />
+          <div className="bg-forest/10 w-24 h-24 rounded-full flex items-center justify-center mx-auto animate-bounce">
+            <CheckCircle2 className="w-14 h-14 text-forest" />
           </div>
           <div className="absolute -top-4 -right-4">
             <PartyPopper className="w-10 h-10 text-amber-500" />
@@ -60,19 +60,19 @@ export default function PaymentSuccessPage({
           <h2 className="font-semibold text-gray-900 mb-4">What happens next?</h2>
           <ul className="space-y-3">
             <li className="flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <CheckCircle2 className="w-5 h-5 text-forest mt-0.5 flex-shrink-0" />
               <span className="text-gray-600">
                 You'll receive an email confirmation shortly
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <CheckCircle2 className="w-5 h-5 text-forest mt-0.5 flex-shrink-0" />
               <span className="text-gray-600">
                 The trip captain can see your payment in their dashboard
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <CheckCircle2 className="w-5 h-5 text-forest mt-0.5 flex-shrink-0" />
               <span className="text-gray-600">
                 Your spot on the trip is confirmed!
               </span>
@@ -82,7 +82,7 @@ export default function PaymentSuccessPage({
 
         <a
           href="/"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-forest text-white rounded-lg font-medium hover:bg-forest/90 transition"
         >
           <Home className="w-5 h-5" />
           Back to Home

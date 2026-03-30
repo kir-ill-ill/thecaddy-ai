@@ -61,6 +61,12 @@ export default function VotePage() {
   const [hasVoted, setHasVoted] = useState(false);
   const [showSwipe, setShowSwipe] = useState(false);
   const [pendingVotes, setPendingVotes] = useState<{ optionId: string; vote: 'yes' | 'no' }[]>([]);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   useEffect(() => {
     // Check if user has already voted
@@ -110,7 +116,7 @@ export default function VotePage() {
 
     const yesVotes = pendingVotes.filter(v => v.vote === 'yes');
     if (yesVotes.length === 0) {
-      alert('Please vote YES on at least one option!');
+      showToast('Please vote YES on at least one option!', 'error');
       setShowSwipe(true);
       return;
     }
@@ -150,7 +156,7 @@ export default function VotePage() {
       await loadTrip();
     } catch (error) {
       console.error('Error submitting vote:', error);
-      alert('Failed to submit vote. Please try again.');
+      showToast('Failed to submit vote. Please try again.', 'error');
     } finally {
       setSubmitting(false);
     }
@@ -159,7 +165,7 @@ export default function VotePage() {
   const copyShareLink = () => {
     const link = `${window.location.origin}/vote/${tripId}`;
     navigator.clipboard.writeText(link);
-    alert('Link copied! Share it with your group.');
+    showToast('Link copied! Share it with your group.');
   };
 
   const startOver = () => {
@@ -169,9 +175,9 @@ export default function VotePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-sand/30 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-emerald-600 mx-auto mb-4" />
+          <Loader2 className="w-12 h-12 animate-spin text-forest mx-auto mb-4" />
           <p className="text-gray-600">Loading trip...</p>
         </div>
       </div>
@@ -180,10 +186,10 @@ export default function VotePage() {
 
   if (!trip) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-sand/30 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Trip Not Found</h1>
-          <p className="text-gray-600">This trip doesn't exist or the link is invalid.</p>
+          <p className="text-gray-600">This trip doesn&apos;t exist or the link is invalid.</p>
         </div>
       </div>
     );
@@ -195,10 +201,10 @@ export default function VotePage() {
   // Show swipe interface
   if (showSwipe && !hasVoted && options.length > 0) {
     return (
-      <div className="h-screen bg-gray-100 flex flex-col">
-        <header className="bg-emerald-700 text-white p-4 flex-shrink-0">
-          <h1 className="text-lg font-bold">{tripName}</h1>
-          <p className="text-emerald-100 text-sm">
+      <div className="h-screen bg-sand/30 flex flex-col">
+        <header className="bg-forest text-white p-4 flex-shrink-0">
+          <h1 className="text-lg font-bold font-serif">{tripName}</h1>
+          <p className="text-sand/70 text-sm">
             Swipe right to vote YES, left to skip
           </p>
         </header>
@@ -213,19 +219,28 @@ export default function VotePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-sand/30">
+      {/* Toast notification */}
+      {toast && (
+        <div className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg text-sm font-medium animate-fade-in ${
+          toast.type === 'success' ? 'bg-forest text-white' : 'bg-red-600 text-white'
+        }`}>
+          {toast.message}
+        </div>
+      )}
+
       {/* Header */}
-      <header className="bg-gradient-to-r from-emerald-700 to-emerald-800 text-white py-8 px-6">
+      <header className="bg-gradient-to-r from-forest to-forest/90 text-white py-8 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2">{tripName}</h1>
-              <div className="flex items-center gap-2 text-emerald-100">
+              <h1 className="text-3xl font-bold mb-2 font-serif">{tripName}</h1>
+              <div className="flex items-center gap-2 text-sand/80">
                 <MapPin className="w-4 h-4" />
                 <span>{trip.origin_city}, {trip.origin_state}</span>
-                <span className="mx-2">•</span>
+                <span className="mx-2">·</span>
                 <span>{trip.nights} nights</span>
-                <span className="mx-2">•</span>
+                <span className="mx-2">·</span>
                 <span>{trip.players} players</span>
               </div>
             </div>
@@ -245,9 +260,9 @@ export default function VotePage() {
                 <span>{voteSummary.totalVoters} voted</span>
               </div>
               {voteSummary.consensus && (
-                <div className="flex items-center gap-2 bg-emerald-400/20 px-3 py-1 rounded-full">
-                  <TrendingUp className="w-4 h-4" />
-                  <span className="font-medium">Clear favorite!</span>
+                <div className="flex items-center gap-2 bg-gold/20 px-3 py-1 rounded-full">
+                  <TrendingUp className="w-4 h-4 text-gold" />
+                  <span className="font-medium text-gold">Clear favorite!</span>
                 </div>
               )}
             </div>
@@ -261,19 +276,19 @@ export default function VotePage() {
           <>
             {/* Voter Name Input */}
             {!pendingVotes.length && (
-              <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-gray-200">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Welcome! What's your name?</h2>
+              <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-forest/10">
+                <h2 className="text-lg font-bold text-gray-900 mb-4 font-serif">Welcome! What&apos;s your name?</h2>
                 <input
                   type="text"
                   value={voterName}
                   onChange={(e) => setVoterName(e.target.value)}
                   placeholder="Enter your name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 mb-4"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest/50 focus:border-forest mb-4"
                 />
                 <button
                   onClick={() => voterName.trim() && setShowSwipe(true)}
                   disabled={!voterName.trim()}
-                  className="w-full px-6 py-4 bg-emerald-600 text-white rounded-lg font-bold text-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2"
+                  className="w-full px-6 py-4 bg-gold text-forest rounded-lg font-bold text-lg hover:bg-gold/90 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2"
                 >
                   Start Voting
                   <ArrowRight className="w-5 h-5" />
@@ -284,8 +299,8 @@ export default function VotePage() {
             {/* Pending votes review */}
             {pendingVotes.length > 0 && (
               <>
-                <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-gray-200">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">
+                <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-forest/10">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4 font-serif">
                     Review Your Selections
                   </h2>
                   <p className="text-gray-600 mb-6">
@@ -295,7 +310,7 @@ export default function VotePage() {
                   {yesVotes.length === 0 ? (
                     <div className="text-center py-8 bg-red-50 rounded-lg">
                       <p className="text-red-600 font-medium">
-                        You didn't vote YES on any options!
+                        You didn&apos;t vote YES on any options!
                       </p>
                       <button
                         onClick={startOver}
@@ -312,16 +327,16 @@ export default function VotePage() {
                         return (
                           <div
                             key={vote.optionId}
-                            className="flex items-center justify-between p-4 bg-emerald-50 rounded-lg border border-emerald-200"
+                            className="flex items-center justify-between p-4 bg-forest/5 rounded-lg border border-forest/10"
                           >
                             <div className="flex items-center gap-3">
-                              <span className="text-lg font-bold text-emerald-600">#{idx + 1}</span>
+                              <span className="text-lg font-bold text-forest">#{idx + 1}</span>
                               <div>
                                 <h3 className="font-bold text-gray-900">{option.title}</h3>
                                 <p className="text-sm text-gray-600">{option.destination}</p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-1 text-emerald-600">
+                            <div className="flex items-center gap-1 text-forest">
                               <DollarSign className="w-4 h-4" />
                               <span className="font-bold">
                                 {option.cost_estimate?.per_person_estimated || 0}
@@ -345,7 +360,7 @@ export default function VotePage() {
                   <button
                     onClick={handleSubmitVotes}
                     disabled={yesVotes.length === 0 || submitting}
-                    className="flex-1 px-6 py-4 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2"
+                    className="flex-1 px-6 py-4 bg-gold text-forest rounded-lg font-bold hover:bg-gold/90 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2"
                   >
                     {submitting ? (
                       <>
@@ -366,15 +381,15 @@ export default function VotePage() {
         ) : (
           /* Thank You / Results View */
           <div className="space-y-6">
-            <div className="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-8 text-center">
-              <CheckCircle2 className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Thanks for voting, {voterName}!</h2>
-              <p className="text-gray-600">Your vote has been recorded. Here's how the group is leaning:</p>
+            <div className="bg-forest/5 border-2 border-forest/20 rounded-xl p-8 text-center">
+              <CheckCircle2 className="w-16 h-16 text-forest mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 mb-2 font-serif">Thanks for voting, {voterName}!</h2>
+              <p className="text-gray-600">Your vote has been recorded. Here&apos;s how the group is leaning:</p>
             </div>
 
             {/* Vote Results */}
             <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Current Results</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4 font-serif">Current Results</h3>
               <div className="space-y-4">
                 {voteSummary?.rankedOptions.map((result, idx) => {
                   const option = options.find((o) => o.id === result.optionId);
@@ -390,13 +405,13 @@ export default function VotePage() {
                     <div
                       key={result.optionId}
                       className={`bg-white rounded-lg p-4 border-2 ${
-                        isLeader ? 'border-emerald-500 shadow-lg' : 'border-gray-200'
+                        isLeader ? 'border-gold shadow-lg' : 'border-forest/10'
                       }`}
                     >
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                           <span className={`text-2xl font-bold ${
-                            isLeader ? 'text-emerald-600' : 'text-gray-400'
+                            isLeader ? 'text-gold' : 'text-gray-400'
                           }`}>
                             #{idx + 1}
                           </span>
@@ -406,20 +421,20 @@ export default function VotePage() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-emerald-600">{result.votes} votes</p>
+                          <p className="text-lg font-bold text-forest">{result.votes} votes</p>
                           <p className="text-sm text-gray-500">{percentage}%</p>
                         </div>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <div
                           className={`h-3 rounded-full transition-all ${
-                            isLeader ? 'bg-emerald-500' : 'bg-emerald-400'
+                            isLeader ? 'bg-gold' : 'bg-forest/60'
                           }`}
                           style={{ width: `${percentage}%` }}
                         ></div>
                       </div>
                       {isLeader && (
-                        <p className="mt-2 text-sm font-medium text-emerald-600 flex items-center gap-1">
+                        <p className="mt-2 text-sm font-medium text-gold flex items-center gap-1">
                           <TrendingUp className="w-4 h-4" />
                           Group Favorite
                         </p>
@@ -434,7 +449,7 @@ export default function VotePage() {
                   .map((option) => (
                     <div
                       key={option.id}
-                      className="bg-white rounded-lg p-4 border border-gray-200 opacity-60"
+                      className="bg-white rounded-lg p-4 border border-forest/10 opacity-60"
                     >
                       <div className="flex justify-between items-start">
                         <div>
@@ -449,11 +464,11 @@ export default function VotePage() {
             </div>
 
             {voteSummary && (
-              <div className="bg-white rounded-xl p-6 border border-gray-200">
-                <h4 className="font-bold text-gray-900 mb-3">Who's Voted ({voteSummary.totalVoters})</h4>
+              <div className="bg-white rounded-xl p-6 border border-forest/10">
+                <h4 className="font-bold text-gray-900 mb-3">Who&apos;s Voted ({voteSummary.totalVoters})</h4>
                 <div className="flex flex-wrap gap-2">
                   {Object.values(voteSummary.voters).map((name, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                    <span key={idx} className="px-3 py-1 bg-forest/10 text-forest rounded-full text-sm">
                       {name}
                     </span>
                   ))}
@@ -462,12 +477,12 @@ export default function VotePage() {
             )}
 
             {/* Share CTA */}
-            <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-xl p-6 text-white text-center">
-              <h3 className="text-xl font-bold mb-2">More friends need to vote?</h3>
-              <p className="text-emerald-100 mb-4">Share this link with your group!</p>
+            <div className="bg-gradient-to-r from-forest to-forest/90 rounded-xl p-6 text-white text-center">
+              <h3 className="text-xl font-bold mb-2 font-serif">More friends need to vote?</h3>
+              <p className="text-sand/80 mb-4">Share this link with your group!</p>
               <button
                 onClick={copyShareLink}
-                className="px-6 py-3 bg-white text-emerald-700 rounded-lg font-bold hover:bg-emerald-50 transition flex items-center gap-2 mx-auto"
+                className="px-6 py-3 bg-gold text-forest rounded-lg font-bold hover:bg-gold/90 transition flex items-center gap-2 mx-auto"
               >
                 <Share2 className="w-5 h-5" />
                 Copy Share Link
