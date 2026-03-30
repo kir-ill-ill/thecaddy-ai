@@ -14,7 +14,6 @@ export async function getMCPClient(): Promise<Client> {
     args: [process.cwd() + '/mcp-server/dist/index.js'],
     env: {
       ...process.env,
-      OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
     },
   });
 

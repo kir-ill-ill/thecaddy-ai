@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { callMCPTool } from '@/lib/mcp-client';
 import { mockExtractTripBrief } from '@/lib/mock-data';
 import { ExtractTripBriefRequest, ExtractTripBriefResponse } from '@/lib/types';
+import { callClaude } from '@/lib/claude';
+import { EXTRACTOR_SYSTEM_PROMPT, buildExtractorPrompt } from '@/lib/prompts';
 
 const USE_MOCK_DATA = process.env.USE_MOCK_DATA !== 'false'; // Default to true
 
@@ -18,13 +19,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(result);
     }
 
-    // Real AI call (only if explicitly enabled)
-    const result: ExtractTripBriefResponse = await callMCPTool('extract_trip_brief', {
-      user_message,
-      chat_context,
-      now_date: body.now_date,
+    // Call Claude Haiku for fast extraction
+    const userPrompt = buildExtractorPrompt(user_message, chat_context, body.now_date);
+    const raw = await callClaude({
+      system: EXTRACTOR_SYSTEM_PROMPT,
+      userMessage: userPrompt,
+      model: 'claude-haiku-4-5-20251001',
+      maxTokens: 2048,
     });
 
+    const result: ExtractTripBriefResponse = JSON.parse(raw);
     return NextResponse.json(result);
   } catch (error) {
     console.error('Extract API error:', error);

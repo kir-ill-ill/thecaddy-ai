@@ -6,12 +6,12 @@ import {
   MessageSquare,
   Vote,
   Lock,
-  Sparkles,
+  Brain,
   Users,
-  DollarSign,
-  MapPin,
+  Wallet,
+  Target,
   CloudSun,
-  Camera,
+  Trophy,
   ChevronDown,
   Menu,
   X,
@@ -293,9 +293,9 @@ export default function HomePage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-            TheCaddy.ai turns your group text chaos into a locked-in trip.
-            AI&#8209;powered&nbsp;planning, group&nbsp;voting, and cost&nbsp;splitting
-            &mdash;&nbsp;all&nbsp;in&nbsp;one&nbsp;place.
+            Stop losing trips to group text purgatory.
+            Tell&nbsp;your&nbsp;AI&nbsp;caddy where you want to play, let your crew vote,
+            and tee&nbsp;it&nbsp;up&nbsp;&mdash;&nbsp;dues&nbsp;collected before anyone&nbsp;flakes.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
@@ -371,15 +371,15 @@ export default function HomePage() {
             {[
               {
                 icon: <MessageSquare className="w-7 h-7" />,
-                text: 'The group text with 47 unread messages about which course to play.',
+                text: 'The group text with 47 unread messages where everyone has an opinion but nobody books anything.',
               },
               {
-                icon: <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>,
-                text: 'The spreadsheet that one guy made and nobody looks at.',
+                icon: <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>,
+                text: 'The guy who says "I\'m in!" then ghosts when it\'s time to book and pay.',
               },
               {
-                icon: <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
-                text: 'The trip that "we should really plan soon" for the third year in a row.',
+                icon: <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>,
+                text: 'The budget argument that kills more trips than rain delays.',
               },
             ].map((item, i) => (
               <div
@@ -490,34 +490,34 @@ export default function HomePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {[
               {
-                icon: <Sparkles className="w-6 h-6" />,
-                title: 'AI Trip Planning',
-                desc: 'Describe your dream trip in plain English. Get three curated options with real courses, real prices, and full itineraries.',
+                icon: <Brain className="w-6 h-6" />,
+                title: 'Your AI Caddy Reads the Course',
+                desc: 'Tell it where you want to play and it lines up three curated packages -- courses, lodging, and day-by-day itineraries. No research rabbit holes.',
               },
               {
                 icon: <Users className="w-6 h-6" />,
-                title: 'Group Voting',
-                desc: 'Tinder-style swipe voting your group will actually use. No app downloads. Just send a link.',
+                title: 'Democracy on the Fairway',
+                desc: 'Send a link, everyone swipes. No app downloads, no group text debates. The best option wins by popular vote.',
               },
               {
-                icon: <DollarSign className="w-6 h-6" />,
-                title: 'Cost Splitting',
-                desc: 'Collect dues without chasing Venmo requests. Everyone pays their share through one clean link.',
+                icon: <Wallet className="w-6 h-6" />,
+                title: 'The Treasurer Handles the Pot',
+                desc: 'One link, everyone pays their share. Dues collected before tee time -- no more chasing Venmo requests on the first hole.',
               },
               {
-                icon: <MapPin className="w-6 h-6" />,
-                title: 'Smart Matching',
-                desc: 'Real courses, real prices, real availability. Matched to your group\'s budget and skill level.',
+                icon: <Target className="w-6 h-6" />,
+                title: 'Courses Matched to Your Game',
+                desc: 'Real courses, real price ranges, clustered so you aren\'t driving two hours between rounds. Matched to your crew\'s budget and skill level.',
               },
               {
                 icon: <CloudSun className="w-6 h-6" />,
-                title: 'Weather Forecasting',
-                desc: 'Know the forecast before you book. Plan around the weather, not the other way around.',
+                title: 'Check the Forecast First',
+                desc: 'See the weather before you commit. Plan around the forecast so you\'re not dodging lightning on 14.',
               },
               {
-                icon: <Camera className="w-6 h-6" />,
-                title: 'Trip Recap',
-                desc: 'Scores, photos, and bragging rights after the round. A shareable memory page for the group.',
+                icon: <Trophy className="w-6 h-6" />,
+                title: 'The 19th Hole Recap',
+                desc: 'Scores, photos, and bragging rights after the trip. A shareable highlight reel your group will actually look back at.',
               },
             ].map((item, i) => (
               <div

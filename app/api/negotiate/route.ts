@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { callMCPTool } from '@/lib/mcp-client';
 import { NegotiatePlanRequest, NegotiatePlanResponse } from '@/lib/types';
+import { callClaude } from '@/lib/claude';
+import { NEGOTIATOR_SYSTEM_PROMPT, buildNegotiatorPrompt } from '@/lib/prompts';
 
 const USE_MOCK_DATA = process.env.USE_MOCK_DATA !== 'false'; // Default to true
 
@@ -63,13 +64,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(result);
     }
 
-    // Real AI call (only if explicitly enabled)
-    const result: NegotiatePlanResponse = await callMCPTool('negotiate_plan', {
-      trip_brief,
-      shortlist,
-      group_responses,
+    // Call Claude Sonnet for negotiation
+    const userPrompt = buildNegotiatorPrompt(trip_brief, shortlist, group_responses);
+    const raw = await callClaude({
+      system: NEGOTIATOR_SYSTEM_PROMPT,
+      userMessage: userPrompt,
+      model: 'claude-sonnet-4-6-20250326',
+      maxTokens: 3072,
     });
 
+    const result: NegotiatePlanResponse = JSON.parse(raw);
     return NextResponse.json(result);
   } catch (error) {
     console.error('Negotiate API error:', error);

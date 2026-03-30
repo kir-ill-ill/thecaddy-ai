@@ -14,9 +14,9 @@ npm run dev              # Start Next.js dev server (localhost:3000)
 npm run build            # Production build
 npm run lint             # ESLint
 
-# MCP Server (required for AI operations)
-cd mcp-server && npm install && npm run build  # First-time setup
-cd mcp-server && npm run dev                   # Run MCP server
+# MCP Server (legacy -- no longer required for AI operations)
+# cd mcp-server && npm install && npm run build  # First-time setup
+# cd mcp-server && npm run dev                   # Run MCP server
 
 # Tauri Desktop App (requires Rust)
 npm run tauri:dev        # Launch native macOS app
@@ -29,17 +29,23 @@ npm run tauri:build      # Build .dmg for distribution
 The app follows a 9-state planning workflow defined in `lib/store.ts`:
 S0_START → S1_INTAKE → S2_ASSUMPTIONS → S3_GENERATION → S4_PRESENTATION → S5_GROUP_INVITE → S6_CONFLICT_RESOLUTION → S7_LOCK_PLAN → S8_BOOKING
 
-### MCP (Model Context Protocol) Architecture
+### AI Architecture (Anthropic Claude)
 ```
-Next.js App → API Routes (/api/*) → MCP Client (lib/mcp-client.ts) → MCP Server → OpenAI GPT-4o
+Next.js App → API Routes (/api/*) → lib/claude.ts → Anthropic Claude API
 ```
 
-Three MCP tools in `mcp-server/src/index.ts`:
-- **extract_trip_brief**: Natural language → TripBrief JSON
-- **plan_trip_options**: Generates 2-3 differentiated trip options
-- **negotiate_plan**: Resolves group conflicts
+Direct Anthropic API calls via `lib/claude.ts` (no MCP indirection):
+- **`/api/extract`**: Claude Haiku (`claude-haiku-4-5-20251001`) -- fast TripBrief extraction
+- **`/api/plan`**: Database planner with Claude Sonnet (`claude-sonnet-4-6-20250326`) fallback
+- **`/api/negotiate`**: Claude Sonnet (`claude-sonnet-4-6-20250326`) -- group conflict resolution
+
+System prompts and prompt builders live in `lib/prompts.ts`.
+
+> Legacy: `mcp-server/` and `lib/mcp-client.ts` still exist but are no longer the primary AI path.
 
 ### Key Files
+- `lib/claude.ts` - Anthropic Claude API wrapper (callClaude helper)
+- `lib/prompts.ts` - System prompts and prompt builders for all AI operations
 - `lib/types.ts` - TypeScript types matching JSON schemas from spec
 - `lib/store.ts` - Zustand state management (persisted to localStorage)
 - `lib/validation.ts` - Zod schemas for all data contracts
@@ -85,7 +91,7 @@ Database tables for auth:
 ## Environment Variables
 
 Required in `.env.local`:
-- `OPENAI_API_KEY` - For AI operations
+- `ANTHROPIC_API_KEY` - For Claude AI operations (extraction, planning, negotiation)
 - `DATABASE_URL` - Neon PostgreSQL connection
 - `STRIPE_SECRET_KEY` / `STRIPE_PUBLISHABLE_KEY` - Payment processing
 - `NEXTAUTH_SECRET` - NextAuth.js secret (generate with `openssl rand -base64 32`)
@@ -96,7 +102,7 @@ Required in `.env.local`:
 
 ## Development Notes
 
-- MCP server must be built separately before the main app can use it
+- AI calls go directly through `lib/claude.ts` -- no MCP server needed for normal operation
 - Demo UI at `/demo-mobile` is what Tauri loads (430x932px iPhone-sized window)
 - All AI responses validated against Zod schemas - never skip validation
 - Use `CaddyError` with `ErrorCode` for consistent error handling

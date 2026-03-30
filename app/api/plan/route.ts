@@ -4,6 +4,8 @@ import { mockGenerateTripOptions } from '@/lib/mock-data';
 import { PlanRequestSchema, validateInput, formatZodErrors } from '@/lib/validation';
 import { Errors, CaddyError } from '@/lib/errors';
 import { successResponse, errorResponse, generateRequestId, createLogger } from '@/lib/api-utils';
+import { callClaude } from '@/lib/claude';
+import { PLANNER_SYSTEM_PROMPT, buildPlannerPrompt } from '@/lib/prompts';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,8 +59,23 @@ export async function POST(req: NextRequest) {
       nights: tripBrief.dates.nights,
     });
 
-    // Generate trip options using database-backed planner
-    const options = await generateTripOptions(tripBrief);
+    // Try database-backed planner first, fall back to Claude
+    let options = await generateTripOptions(tripBrief);
+
+    if (options.length === 0) {
+      logger.info('Database planner returned no results, falling back to Claude');
+      const inventoryContext = body.inventory_context || {};
+      const userPrompt = buildPlannerPrompt(tripBrief, inventoryContext);
+      const raw = await callClaude({
+        system: PLANNER_SYSTEM_PROMPT,
+        userMessage: userPrompt,
+        model: 'claude-sonnet-4-6-20250326',
+        maxTokens: 4096,
+      });
+
+      const parsed = JSON.parse(raw);
+      options = parsed.options || [];
+    }
 
     if (options.length === 0) {
       logger.warn('No trip options generated');
@@ -72,7 +89,7 @@ export async function POST(req: NextRequest) {
       data: {
         schema_version: '1.0',
         options,
-        ranked_option_ids: options.map(o => o.id),
+        ranked_option_ids: options.map((o: any) => o.id),
         notes: `Generated ${options.length} trip options based on your preferences`,
       },
     });

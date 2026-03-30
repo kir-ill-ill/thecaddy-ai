@@ -3,11 +3,9 @@
     "thecaddy-ai": {
       "command": "node",
       "args": [
-        "/Users/kirill/dev/bridge/caddyAI/mcp-server/dist/index.js"
+        "mcp-server/dist/index.js"
       ],
-      "env": {
-        "OPENAI_API_KEY": "your_openai_api_key_here"
-      }
+      "env": {}
     }
   }
 }

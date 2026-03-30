@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { usePlanningStore } from '@/lib/store';
 import { ExtractTripBriefRequest } from '@/lib/types';
+import { LogoIcon } from '@/components/Logo';
 
 export default function ChatInterface() {
   const [input, setInput] = useState('');
@@ -188,9 +189,9 @@ export default function ChatInterface() {
               </p>
               <div className="grid gap-3 max-w-md mx-auto">
                 {[
-                  'Planning a trip to Scottsdale for 8 guys in May',
-                  'Weekend golf trip for 4, $1200/person budget',
-                  'Bachelor party golf trip in Florida',
+                  'Planning a bachelor party golf weekend in Scottsdale',
+                  '4 guys, Myrtle Beach, trying to stay under a grand each',
+                  'Need a bucket list trip \u2014 Pebble Beach or Bandon?',
                 ].map((example, idx) => (
                   <button
                     key={idx}
@@ -209,6 +210,11 @@ export default function ChatInterface() {
               key={msg.id}
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
+              {msg.role === 'assistant' && (
+                <div className="w-8 h-8 rounded-full bg-forest flex items-center justify-center mr-3 mt-1 shrink-0">
+                  <LogoIcon size={20} />
+                </div>
+              )}
               <div
                 className={`max-w-[75%] rounded-2xl px-5 py-3 ${
                   msg.role === 'user'
@@ -223,6 +229,9 @@ export default function ChatInterface() {
 
           {isLoading && (
             <div className="flex justify-start">
+              <div className="w-8 h-8 rounded-full bg-forest flex items-center justify-center mr-3 mt-1 shrink-0">
+                <LogoIcon size={20} />
+              </div>
               <div className="bg-sand/40 rounded-2xl px-5 py-3">
                 <div className="flex items-center gap-2">
                   <div className="flex gap-1">
@@ -230,7 +239,7 @@ export default function ChatInterface() {
                     <div className="w-2 h-2 bg-forest/40 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                     <div className="w-2 h-2 bg-forest/40 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
-                  <span className="text-sm text-gray-600">Reading the green...</span>
+                  <span className="text-sm text-gray-600">Caddy is reading the green...</span>
                 </div>
               </div>
             </div>
