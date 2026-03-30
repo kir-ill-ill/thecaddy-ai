@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { TripOption } from '@/lib/types';
+import Logo from '@/components/Logo';
 
 interface TripOptionCardProps {
   option: TripOption;
@@ -64,7 +65,7 @@ export default function TripOptionCard({ option, onSelect, selected }: TripOptio
         {/* Courses */}
         <div className="mb-5">
           <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <span>⛳</span>
+            <Logo size="sm" />
             <span>Courses ({option.courses.length} rounds)</span>
           </h4>
           <div className="space-y-2">

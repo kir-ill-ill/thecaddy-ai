@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateTripOptions } from '@/lib/planner';
+import { mockGenerateTripOptions } from '@/lib/mock-data';
 import { PlanRequestSchema, validateInput, formatZodErrors } from '@/lib/validation';
 import { Errors, CaddyError } from '@/lib/errors';
 import { successResponse, errorResponse, generateRequestId, createLogger } from '@/lib/api-utils';
 
 export const dynamic = 'force-dynamic';
+
+const USE_MOCK_DATA = process.env.USE_MOCK_DATA !== 'false'; // Default to true
 
 export async function POST(req: NextRequest) {
   const requestId = generateRequestId();
@@ -13,7 +16,24 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    // Validate request body
+    // Mock path: skip strict validation, use mock generator
+    if (USE_MOCK_DATA) {
+      console.log('Using mock data for plan (cost optimization)');
+      const tripBrief = body.trip_brief || {};
+      const options = mockGenerateTripOptions(tripBrief);
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          schema_version: '1.0',
+          options,
+          ranked_option_ids: options.map((o: { id: string }) => o.id),
+          notes: `Generated ${options.length} trip options based on your preferences`,
+        },
+      });
+    }
+
+    // Real path: validate request body strictly
     const validation = validateInput(PlanRequestSchema, body);
     if (!validation.success) {
       logger.warn('Validation failed', { errors: formatZodErrors(validation.error) });

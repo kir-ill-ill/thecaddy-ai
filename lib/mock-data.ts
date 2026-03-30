@@ -6,67 +6,131 @@ export function mockExtractTripBrief(userMessage: string, existingBrief?: Partia
   const brief: Partial<TripBrief> = { ...existingBrief };
 
   // Extract destination
-  const destinations = ['scottsdale', 'phoenix', 'vegas', 'pebble beach', 'bandon', 'kiawah', 'pinehurst', 'myrtle beach'];
+  const destinations = ['scottsdale', 'phoenix', 'vegas', 'las vegas', 'pebble beach', 'bandon', 'kiawah', 'pinehurst', 'myrtle beach', 'florida', 'orlando', 'miami', 'austin', 'san diego'];
   const foundDest = destinations.find(dest => message.includes(dest));
   if (foundDest) {
+    const destName = foundDest === 'las vegas' ? 'Las Vegas' : foundDest.charAt(0).toUpperCase() + foundDest.slice(1);
+    const stateMap: Record<string, string> = {
+      scottsdale: 'AZ', phoenix: 'AZ', vegas: 'NV', 'las vegas': 'NV',
+      'pebble beach': 'CA', bandon: 'OR', kiawah: 'SC', pinehurst: 'NC',
+      'myrtle beach': 'SC', florida: 'FL', orlando: 'FL', miami: 'FL',
+      austin: 'TX', 'san diego': 'CA'
+    };
     brief.destination = {
-      city: foundDest.charAt(0).toUpperCase() + foundDest.slice(1),
-      state: foundDest === 'scottsdale' || foundDest === 'phoenix' ? 'AZ' :
-             foundDest === 'vegas' ? 'NV' :
-             foundDest === 'pebble beach' || foundDest === 'bandon' ? 'CA' :
-             foundDest === 'kiawah' ? 'SC' : 'NC'
+      city: destName,
+      state: stateMap[foundDest] || 'US'
     };
     brief.trip_name = `${brief.destination.city} Golf Trip`;
   }
 
   // Extract party size
-  const partyMatch = message.match(/(\d+)\s*(guys|people|players|golfers)/);
+  const partyMatch = message.match(/(\d+)\s*(?:guys|people|players|golfers|buddies|dudes|of us|man|men)/);
   if (partyMatch) {
     brief.party = { players: parseInt(partyMatch[1]) };
   }
 
-  // Extract budget
-  const budgetMatch = message.match(/\$?(\d+,?\d*)\s*(budget|per person|pp)/);
-  if (budgetMatch) {
-    const budget = parseInt(budgetMatch[1].replace(',', ''));
-    brief.budget = { per_person: budget };
+  // Extract budget - handle many natural formats:
+  //   "$1200/person budget", "$1200 per person", "$1200 pp", "$1200 budget",
+  //   "$1200 a head", "$1200 each", "budget of $1200", "budget $1200",
+  //   "1200 per person", "$1,200/person"
+  const budgetPatterns = [
+    /\$\s?(\d+[,.]?\d*)\s*(?:\/|\s*per\s*|\/per\s*|a\s*)?(?:person|head|guy|player|pp|each)/i,
+    /\$\s?(\d+[,.]?\d*)\s*(?:budget|total per|per person)/i,
+    /budget\s*(?:of\s*)?\$?\s?(\d+[,.]?\d*)/i,
+    /(\d+[,.]?\d*)\s*(?:dollars?\s*)?(?:per person|\/person|pp|each|a head|per head|per guy)/i,
+    /\$\s?(\d+[,.]?\d*)/i, // last resort: any dollar amount
+  ];
+  if (!brief.budget) {
+    for (const pattern of budgetPatterns) {
+      const match = message.match(pattern);
+      if (match) {
+        const budget = parseInt(match[1].replace(/[,.]/g, ''));
+        if (budget > 0) {
+          brief.budget = { per_person: budget };
+          break;
+        }
+      }
+    }
   }
 
   // Extract dates
   const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
   const foundMonth = months.findIndex(month => message.includes(month));
-  if (foundMonth !== -1) {
+  // Also check abbreviated months
+  const shortMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const foundShortMonth = foundMonth === -1 ? shortMonths.findIndex(month => {
+    // Match abbreviation as a word boundary (avoid matching "march" with "mar" when full months already checked)
+    return new RegExp(`\\b${month}\\b`).test(message);
+  }) : -1;
+  const monthIndex = foundMonth !== -1 ? foundMonth : foundShortMonth;
+
+  if (monthIndex !== -1 && !brief.dates) {
     const year = new Date().getFullYear();
-    const startDate = new Date(year, foundMonth, 15);
-    const endDate = new Date(year, foundMonth, 18);
+    // If the month is in the past, assume next year
+    const now = new Date();
+    const targetYear = monthIndex < now.getMonth() ? year + 1 : year;
+    const startDate = new Date(targetYear, monthIndex, 15);
+    const endDate = new Date(targetYear, monthIndex, 18);
     brief.dates = {
       start: startDate.toISOString().split('T')[0],
       end: endDate.toISOString().split('T')[0]
     };
   }
 
+  // Also look for "weekend" / "3 days" / "long weekend" patterns
+  if (!brief.dates) {
+    const springMatch = message.match(/\b(spring|next spring)\b/);
+    const fallMatch = message.match(/\b(fall|next fall|autumn)\b/);
+    if (springMatch) {
+      const year = new Date().getFullYear();
+      brief.dates = { start: `${year}-04-15`, end: `${year}-04-18` };
+    } else if (fallMatch) {
+      const year = new Date().getFullYear();
+      brief.dates = { start: `${year}-10-15`, end: `${year}-10-18` };
+    }
+  }
+
   // Extract preferences
   if (message.includes('bachelor')) {
     brief.preferences = { vibe: 'casual', lodging: 'resort' };
-  } else if (message.includes('luxury') || message.includes('high end')) {
+  } else if (message.includes('luxury') || message.includes('high end') || message.includes('high-end')) {
     brief.preferences = { vibe: 'mixed', lodging: 'resort' };
-  } else {
+  } else if (!brief.preferences) {
     brief.preferences = { vibe: 'competitive_fun', lodging: 'resort' };
   }
 
-  // Check what's missing
+  // Determine what's truly missing (only the essentials: destination + dates + group size)
+  // Budget is nice-to-have -- we'll default it if not provided
   const missingFields: string[] = [];
   if (!brief.destination) missingFields.push('destination');
   if (!brief.party) missingFields.push('group size');
-  if (!brief.budget) missingFields.push('budget');
   if (!brief.dates) missingFields.push('dates');
+
+  // Apply smart defaults for non-essential fields
+  if (!brief.budget) {
+    brief.budget = { per_person: 1500 };
+  }
+
+  // Generate a caddy-voiced follow-up if fields are missing
+  let follow_up_question: string | null = null;
+  if (missingFields.length > 0) {
+    if (missingFields.includes('destination') && missingFields.length === 1) {
+      follow_up_question = "Love it. Where are we headed -- any destination in mind, or want me to pick the best spot for your crew?";
+    } else if (missingFields.includes('group size') && missingFields.length === 1) {
+      follow_up_question = "Solid plan shaping up. How many guys are we talking -- foursome, eightsome, full shotgun?";
+    } else if (missingFields.includes('dates') && missingFields.length === 1) {
+      follow_up_question = "Almost dialed in. When are we teeing this up -- got a month or weekend in mind?";
+    } else if (missingFields.length === 2) {
+      follow_up_question = `Good start. I still need a couple things: ${missingFields.join(' and ')}. What are we working with?`;
+    } else {
+      follow_up_question = "I'm your caddy -- tell me the basics: where are we going, how many in the group, and when are we playing?";
+    }
+  }
 
   return {
     trip_brief: brief,
     missing_fields: missingFields,
-    follow_up_question: missingFields.length > 0
-      ? `Got it! Can you tell me more about: ${missingFields.join(', ')}?`
-      : null
+    follow_up_question
   };
 }
 

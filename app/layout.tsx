@@ -5,6 +5,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'TheCaddy.AI - AI Golf Trip Planner',
   description: 'Plan legendary golf trips in minutes with AI-powered trip planning',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { usePlanningStore } from '@/lib/store';
 import { Send, Loader2, CheckCircle2, Users, Calendar, DollarSign, Share2, Copy } from 'lucide-react';
 import { TripOption } from '@/lib/types';
+import Logo from '@/components/Logo';
 
 // Share Trip Button Component
 function ShareTripButton({
@@ -176,25 +177,30 @@ export default function TripPlannerPage() {
 
       const data = await response.json();
 
-      // Update trip brief
+      // Update trip brief with extracted data
       if (data.trip_brief) {
         updateTripBrief(data.trip_brief);
       }
 
-      // Add assistant response
-      const assistantMessage = data.follow_up_question ||
-        (data.missing_fields && data.missing_fields.length > 0
-          ? `Got it! Can you tell me more about: ${data.missing_fields.join(', ')}?`
-          : "Great! I have all the details I need. Let me generate some trip options for you...");
+      // Check if we have enough to build options
+      // Required: destination + dates + group size. Budget uses smart default if missing.
+      const brief = data.trip_brief || {};
+      const hasEnoughInfo = !data.missing_fields || data.missing_fields.length === 0;
 
-      addMessage({ role: 'assistant', content: assistantMessage });
-
-      // If we have complete trip brief, move to generation
-      if (!data.missing_fields || data.missing_fields.length === 0) {
+      if (hasEnoughInfo) {
+        // We have everything -- advance to option generation
+        addMessage({
+          role: 'assistant',
+          content: "I've got what I need. Let me line up some options for your crew.",
+        });
         setState('S3_GENERATION');
         setView('options');
         await generateTripOptions(data.trip_brief);
       } else {
+        // Still need info -- ask follow-up in caddy voice
+        const assistantMessage = data.follow_up_question ||
+          `Good start. I still need: ${data.missing_fields.join(', ')}. What are we working with?`;
+        addMessage({ role: 'assistant', content: assistantMessage });
         setState('S1_INTAKE');
       }
     } catch (error) {
@@ -269,7 +275,7 @@ export default function TripPlannerPage() {
       <header className="bg-forest text-white px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">⛳</span>
+            <Logo size="md" />
             <div>
               <h1 className="text-xl font-bold font-serif">Plan Your Golf Trip</h1>
               <p className="text-sm text-sand/70">
@@ -461,7 +467,7 @@ export default function TripPlannerPage() {
                             <div className="space-y-1">
                               {option.courses.map((course, idx) => (
                                 <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
-                                  <span className="text-forest">⛳</span>
+                                  <Logo size="sm" />
                                   {course.name}
                                 </div>
                               ))}

@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, Lock, User, Loader2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 
 type AuthMode = 'login' | 'signup' | 'magic';
 
@@ -110,11 +111,8 @@ function LoginContent() {
     <div className="w-full max-w-md">
       {/* Logo */}
       <div className="text-center mb-8">
-        <Link href="/" className="inline-block">
-          <h1 className="text-3xl font-bold text-white font-serif">
-            <span className="text-gold">The</span>Caddy
-            <span className="text-gold">.AI</span>
-          </h1>
+        <Link href="/" className="inline-flex justify-center">
+          <Logo size="lg" showText className="text-white" />
         </Link>
         <p className="text-sand/70 mt-2">Plan legendary golf trips</p>
       </div>

@@ -18,6 +18,7 @@ import {
   Check,
   Star,
 } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 /* ------------------------------------------------------------------ */
 /*  Intersection Observer hook for scroll-triggered animations         */
@@ -184,10 +185,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-            <span className="text-2xl">⛳</span>
-            <span className="text-xl sm:text-2xl font-display text-forest">
-              TheCaddy.ai
-            </span>
+            <Logo size="md" showText className="text-forest" />
           </button>
 
           {/* Desktop links */}
@@ -754,8 +752,7 @@ export default function HomePage() {
             {/* Brand */}
             <div className="sm:col-span-2 lg:col-span-1">
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">⛳</span>
-                <span className="text-xl font-display text-sand">TheCaddy.ai</span>
+                <Logo size="md" showText className="text-sand" />
               </div>
               <p className="text-sm text-sand/50 leading-relaxed max-w-xs">
                 AI-powered golf trip planning. From the first idea to the first tee.

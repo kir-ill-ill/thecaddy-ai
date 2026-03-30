@@ -34,16 +34,21 @@ export function generateTripPDF(trip: StoredTrip, winningOption?: TripOption): B
   doc.setFillColor(COLORS.forest);
   doc.rect(0, 0, pageWidth, 50, 'F');
 
-  // Golf icon (emoji)
-  doc.setFontSize(24);
-  doc.setTextColor(COLORS.white);
-  doc.text('⛳', 15, 20);
+  // Brand mark (flag icon drawn as PDF primitives)
+  doc.setDrawColor(COLORS.gold);
+  doc.setLineWidth(0.6);
+  doc.line(20, 10, 20, 28); // pole
+  doc.setFillColor(COLORS.forest);
+  doc.triangle(20, 10, 20, 18, 28, 14, 'F'); // flag
+  doc.setFillColor(COLORS.sand);
+  doc.circle(20, 30, 1.5, 'F'); // ball
 
   // Trip name
   doc.setFontSize(22);
   doc.setFont('helvetica', 'bold');
+  doc.setTextColor(COLORS.white);
   const tripName = trip.tripBrief?.trip_name || 'Golf Trip Itinerary';
-  doc.text(tripName, 30, 22);
+  doc.text(tripName, 32, 22);
 
   // Destination
   doc.setFontSize(12);
@@ -154,7 +159,7 @@ export function generateTripPDF(trip: StoredTrip, winningOption?: TripOption): B
     yPos += 8;
 
     const courseData = option.courses.map((course, idx) => [
-      `⛳ Round ${idx + 1}`,
+      `Round ${idx + 1}`,
       course.name,
       course.difficulty || 'TBD',
     ]);
@@ -215,7 +220,7 @@ export function generateTripPDF(trip: StoredTrip, winningOption?: TripOption): B
           doc.setFont('helvetica', 'normal');
           doc.setTextColor(COLORS.gray);
 
-          const icon = item.type === 'golf' ? '⛳' : item.type === 'food' ? '🍴' : '📍';
+          const icon = item.type === 'golf' ? '[Golf]' : item.type === 'food' ? '[Dine]' : '[Stop]';
           doc.text(`${icon} ${item.time_window || ''} - ${item.label}`, 25, yPos);
           yPos += 5;
         });

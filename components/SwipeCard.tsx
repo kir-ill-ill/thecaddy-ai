@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { DollarSign, X, Heart, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 interface Course {
   name: string;
@@ -179,7 +180,7 @@ export function SwipeCard({ option, onSwipe, isActive, isNext }: SwipeCardProps)
           {/* Courses */}
           <div className="mb-6">
             <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-              <span className="text-xl">⛳</span> Courses
+              <Logo size="sm" /> Courses
             </h3>
             <div className="space-y-2">
               {option.courses.slice(0, 4).map((course, idx) => (

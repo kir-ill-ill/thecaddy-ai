@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Logo from '@/components/Logo';
 import {
   Plus,
   Calendar,
@@ -118,10 +119,7 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-xl font-bold font-serif">
-                <span className="text-gold">The</span>Caddy
-                <span className="text-gold">.AI</span>
-              </span>
+              <Logo size="sm" showText className="text-white" />
             </Link>
 
             <div className="flex items-center gap-4">
