@@ -73,7 +73,7 @@ async function main() {
     const num = String(i + 1).padStart(2, ' ');
 
     try {
-      await sql(stmt);
+      await sql.query(stmt);
       console.log(`  ✅  [${num}/${statements.length}]  ${label}`);
       succeeded++;
     } catch (err) {
