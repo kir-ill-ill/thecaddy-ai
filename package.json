@@ -17,6 +17,7 @@
     "@modelcontextprotocol/sdk": "^0.5.0",
     "@neondatabase/serverless": "^1.0.2",
     "@stripe/stripe-js": "^8.6.1",
+    "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.7",
